@@ -26,6 +26,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.taskapp.ui.components.InteractiveBackground
+import com.example.taskapp.ui.components.CustomDropdownMenu
+import com.example.taskapp.ui.components.CustomDropdownMenuItem
 import com.example.taskapp.ui.viewmodels.SettingsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -71,6 +73,7 @@ fun SettingsScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .statusBarsPadding()
                 .background(Color.Transparent)
         ) {
             // Верхняя панель с кнопкой возврата и заголовком
@@ -331,25 +334,6 @@ fun SettingsScreen(
                     )
                 }
                 
-                // Разделитель и заголовок для Разработка
-                item {
-                    Spacer(modifier = Modifier.height(16.dp))
-                    SettingsHeader(
-                        icon = Icons.Default.Code,
-                        title = "Разработка"
-                    )
-                }
-                
-                // Пункт для перехода к настройкам разработчика
-                item {
-                    ActionSetting(
-                        title = "Настройки разработчика",
-                        description = "Тестовые функции и отладочные инструменты",
-                        onClick = onNavigateToDeveloperOptions,
-                        icon = Icons.Default.BugReport
-                    )
-                }
-                
                 // Разделитель для следующей секции (О приложении)
                 item {
                     Spacer(modifier = Modifier.height(16.dp))
@@ -527,27 +511,21 @@ fun ChoiceSetting(
             )
         }
         
-        DropdownMenu(
+        CustomDropdownMenu(
             expanded = expanded,
             onDismissRequest = { expanded = false },
             modifier = Modifier.fillMaxWidth(0.7f)
         ) {
             options.forEachIndexed { index, option ->
-                DropdownMenuItem(
-                    text = { Text(text = option) },
+                CustomDropdownMenuItem(
+                    text = option,
                     onClick = {
                         onSelect(index)
                         expanded = false
                     },
-                    leadingIcon = {
-                        if (index == selectedIndex) {
-                            Icon(
-                                imageVector = Icons.Default.Check,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.primary
-                            )
-                        }
-                    }
+                    selected = index == selectedIndex,
+                    leadingIcon = if (index == selectedIndex) Icons.Default.Check else null,
+                    leadingIconTint = MaterialTheme.colorScheme.primary
                 )
             }
         }

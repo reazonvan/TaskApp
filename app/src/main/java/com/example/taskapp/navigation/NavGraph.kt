@@ -232,7 +232,8 @@ fun NavGraph(
         ) {
             AboutScreen(
                 onNavigateBack = { navController.popBackStack() },
-                isDarkTheme = isDarkTheme
+                isDarkTheme = isDarkTheme,
+                onNavigateToDeveloperOptions = { navController.navigate(Screen.DeveloperOptions.route) }
             )
         }
     }

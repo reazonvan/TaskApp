@@ -1,5 +1,6 @@
 package com.example.taskapp.ui.theme
 
+import android.app.Activity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
@@ -7,11 +8,15 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
+import androidx.core.view.WindowCompat
 import com.example.taskapp.data.repository.AppSettings
 
 // Создаем CompositionLocal для настроек приложения
@@ -205,6 +210,20 @@ fun AppTheme(
     content: @Composable () -> Unit
 ) {
     val colorScheme = if (isDarkTheme) DarkColorScheme else LightColorScheme
+    
+    // Устанавливаем прозрачный статусбар и настраиваем системные инсеты
+    val view = LocalView.current
+    if (!view.isInEditMode) {
+        SideEffect {
+            val window = (view.context as Activity).window
+            // Устанавливаем прозрачный статус бар
+            window.statusBarColor = Color.Transparent.toArgb()
+            // Настраиваем контроллер системных инсетов
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !isDarkTheme
+            // Делаем приложение "рисовать" под статус баром для лучшей интеграции
+            WindowCompat.setDecorFitsSystemWindows(window, false)
+        }
+    }
     
     // Предоставляем настройки через CompositionLocal
     CompositionLocalProvider(

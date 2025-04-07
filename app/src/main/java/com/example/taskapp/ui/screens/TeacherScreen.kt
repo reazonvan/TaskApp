@@ -65,7 +65,8 @@ fun TeacherScreen(
                 title = { Text("Мои преподаватели") },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer
-                )
+                ),
+                modifier = Modifier.statusBarsPadding()
             )
         },
         floatingActionButton = {

@@ -1,5 +1,12 @@
 package com.example.taskapp.ui.screens
 
+import android.content.Context
+import android.media.MediaPlayer
+import android.media.AudioAttributes
+import android.media.AudioManager
+import android.os.Build
+import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -13,33 +20,25 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.taskapp.R
 import com.example.taskapp.ui.components.SettingItem
 import com.example.taskapp.ui.components.SettingsSection
 import com.example.taskapp.ui.viewmodels.SettingsViewModel
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
-import android.content.Context
-import android.media.AudioManager
-import android.os.Build
-import android.os.Handler
-import android.widget.Toast
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
-import java.util.concurrent.TimeUnit
 import com.example.taskapp.notifications.TestNotificationManager
-import android.media.MediaPlayer
-import androidx.compose.foundation.Image
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.window.Dialog
-import com.example.taskapp.R
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import androidx.compose.runtime.rememberCoroutineScope
 
 /**
  * Экран настроек для разработчиков с тестовыми функциями
@@ -64,44 +63,84 @@ fun DeveloperOptionsScreen(
     var isButtonEnabled by remember { mutableStateOf(false) }
     
     // MediaPlayer для воспроизведения звука пасхалки
-    val mediaPlayer = remember { MediaPlayer() }
+    val mediaPlayer = remember { 
+        MediaPlayer()
+    }
     
-    // Обработчик для активации кнопки через 3 секунды
-    val handler = remember { Handler() }
+    // Настраиваем MediaPlayer при входе на экран
+    LaunchedEffect(Unit) {
+        mediaPlayer.apply {
+            // Предварительная инициализация для уменьшения задержек
+            setAudioAttributes(
+                AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_GAME)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .build()
+            )
+        }
+    }
+    
+    // Обработчик для активации кнопки через 3 секунды с использованием корутин вместо Handler
+    val coroutineScope = rememberCoroutineScope()
+    
+    // Предварительно загружаем изображение для исключения задержек при его показе
+    val easterEggDrawableId = R.drawable.easter_egg_image
+    val easterEggImage = painterResource(id = easterEggDrawableId)
     
     // Функция для показа пасхалки
     fun showEasterEgg() {
-        // Устанавливаем громкость на 50%
-        try {
-            val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-            val maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
-            val targetVolume = (maxVolume * 0.5).toInt()
-            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, targetVolume, 0)
-            Toast.makeText(context, "Громкость установлена на 50%", Toast.LENGTH_SHORT).show()
-        } catch (e: Exception) {
-            Toast.makeText(context, "Ошибка установки громкости: ${e.message}", Toast.LENGTH_SHORT).show()
+        // Устанавливаем громкость на 50% в отдельной корутине
+        coroutineScope.launch(Dispatchers.IO) {
+            try {
+                val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+                val maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
+                val targetVolume = (maxVolume * 0.5).toInt()
+                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, targetVolume, 0)
+                
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, "Громкость установлена на 50%", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, "Ошибка установки громкости: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
         // Кнопка не активна в начале
         isButtonEnabled = false
         
-        // Воспроизводим звук
-        try {
-            mediaPlayer.apply {
-                reset()
-                setDataSource(context.resources.openRawResourceFd(R.raw.easter_egg_sound))
-                prepare()
-                start()
+        // Воспроизводим звук через корутину
+        coroutineScope.launch(Dispatchers.IO) {
+            try {
+                withContext(Dispatchers.Main) {
+                    mediaPlayer.apply {
+                        reset()
+                        setDataSource(context.resources.openRawResourceFd(R.raw.easter_egg_sound))
+                        
+                        // Асинхронная подготовка медиаплеера
+                        prepareAsync()
+                        
+                        // Обработка события окончания подготовки
+                        setOnPreparedListener { mp ->
+                            mp.start()
+                        }
+                    }
+                }
+                
+                // Активируем кнопку через 3 секунды с помощью корутины
+                delay(3000)
+                
+                withContext(Dispatchers.Main) {
+                    isButtonEnabled = true
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, "Ошибка воспроизведения звука: ${e.message}", Toast.LENGTH_SHORT).show()
+                    // В случае ошибки кнопка должна быть активна сразу
+                    isButtonEnabled = true
+                }
             }
-            
-            // Активируем кнопку через 3 секунды
-            handler.postDelayed({
-                isButtonEnabled = true
-            }, 3000)
-        } catch (e: Exception) {
-            Toast.makeText(context, "Ошибка воспроизведения звука: ${e.message}", Toast.LENGTH_SHORT).show()
-            // В случае ошибки кнопка должна быть активна сразу
-            isButtonEnabled = true
         }
         
         // Показываем диалог с изображением
@@ -110,20 +149,23 @@ fun DeveloperOptionsScreen(
     
     // Функция для закрытия пасхалки
     fun closeEasterEgg() {
-        // Останавливаем звук
-        if (mediaPlayer.isPlaying) {
-            mediaPlayer.stop()
+        // Останавливаем звук в отдельной корутине
+        coroutineScope.launch(Dispatchers.IO) {
+            if (mediaPlayer.isPlaying) {
+                mediaPlayer.stop()
+            }
+            
+            withContext(Dispatchers.Main) {
+                // Закрываем диалог
+                showEasterEggDialog = false
+            }
         }
-        
-        // Закрываем диалог
-        showEasterEggDialog = false
     }
     
     // При уничтожении композиции освобождаем ресурсы MediaPlayer и Handler
     DisposableEffect(Unit) {
         onDispose {
             mediaPlayer.release()
-            handler.removeCallbacksAndMessages(null)
         }
     }
     
@@ -145,7 +187,7 @@ fun DeveloperOptionsScreen(
                 ) {
                     // Изображение пасхалки
                     Image(
-                        painter = painterResource(id = R.drawable.easter_egg_image),
+                        painter = easterEggImage,
                         contentDescription = "Пасхалка",
                         modifier = Modifier
                             .fillMaxWidth()
@@ -188,7 +230,8 @@ fun DeveloperOptionsScreen(
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.7f),
                     titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
-                )
+                ),
+                modifier = Modifier.statusBarsPadding()
             )
         }
     ) { padding ->
@@ -319,9 +362,10 @@ fun DeveloperOptionsScreen(
                     onClick = {
                         Toast.makeText(context, "Приложение сейчас аварийно завершится...", Toast.LENGTH_SHORT).show()
                         // Задержка, чтобы пользователь успел увидеть тост
-                        Handler().postDelayed({
+                        coroutineScope.launch {
+                            delay(1500)
                             throw RuntimeException("Тестовое исключение из раздела разработчика")
-                        }, 1500)
+                        }
                     }
                 )
             }

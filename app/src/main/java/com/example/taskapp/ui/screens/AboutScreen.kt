@@ -7,11 +7,14 @@ import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Code
+import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Warning
@@ -40,7 +43,8 @@ import javax.inject.Inject
 @Composable
 fun AboutScreen(
     onNavigateBack: () -> Unit,
-    isDarkTheme: Boolean
+    isDarkTheme: Boolean,
+    onNavigateToDeveloperOptions: () -> Unit
 ) {
     // Используем hiltViewModel для получения ViewModel
     val settingsViewModel: SettingsViewModel = hiltViewModel()
@@ -118,7 +122,8 @@ fun AboutScreen(
                             contentDescription = "Назад"
                         )
                     }
-                }
+                },
+                modifier = Modifier.statusBarsPadding()
             )
         }
     ) { padding ->
@@ -269,6 +274,54 @@ fun AboutScreen(
                 }
                 
                 Spacer(modifier = Modifier.height(24.dp))
+                
+                // Кнопка "Настройки разработчика" в самом конце экрана
+                Surface(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = MaterialTheme.shapes.medium,
+                    color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.7f)
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { onNavigateToDeveloperOptions() }
+                            .padding(16.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Code,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.secondary,
+                                modifier = Modifier.size(24.dp)
+                            )
+                            Spacer(modifier = Modifier.width(16.dp))
+                            Column {
+                                Text(
+                                    text = "Настройки разработчика",
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    color = MaterialTheme.colorScheme.onSecondaryContainer
+                                )
+                                Text(
+                                    text = "Тестовые функции и инструменты отладки",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.7f)
+                                )
+                            }
+                        }
+                        Icon(
+                            imageVector = Icons.Default.ChevronRight,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.5f)
+                        )
+                    }
+                }
+                
+                // Дополнительный отступ внизу для лучшего просмотра
+                Spacer(modifier = Modifier.height(32.dp))
             }
         }
     }

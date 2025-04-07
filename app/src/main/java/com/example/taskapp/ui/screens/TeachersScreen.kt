@@ -79,6 +79,8 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.ExperimentalFoundationApi
 import com.example.taskapp.ui.components.ThemeToggleButton
 import com.example.taskapp.ui.components.SettingsButton
+import com.example.taskapp.ui.components.CustomDropdownMenu
+import com.example.taskapp.ui.components.CustomDropdownMenuItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -140,6 +142,7 @@ fun TeachersScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .statusBarsPadding()
                 .background(Color.Transparent)
                 .padding(horizontal = 16.dp)
                 .padding(top = 16.dp)
@@ -1240,21 +1243,15 @@ fun TeacherCard(
                     )
                 }
                 
-                DropdownMenu(
+                CustomDropdownMenu(
                     expanded = expanded,
                     onDismissRequest = { expanded = false }
                 ) {
                     // Кнопка смены местами
-                    DropdownMenuItem(
-                        text = { Text("Поменять местами") },
-                        leadingIcon = {
-                            Icon(
-                                imageVector = Icons.Default.SwapVert,
-                                contentDescription = "Поменять местами",
-                                modifier = Modifier.graphicsLayer(rotationZ = if (isSwapping) 180f else 0f),
-                                tint = MaterialTheme.colorScheme.primary
-                            )
-                        },
+                    CustomDropdownMenuItem(
+                        text = "Поменять местами",
+                        leadingIcon = Icons.Default.SwapVert,
+                        leadingIconTint = MaterialTheme.colorScheme.primary,
                         onClick = {
                             isSwapping = true
                             expanded = false
@@ -1262,15 +1259,10 @@ fun TeacherCard(
                     )
                     
                     // Кнопка удаления
-                    DropdownMenuItem(
-                        text = { Text("Удалить") },
-                        leadingIcon = {
-                            Icon(
-                                imageVector = Icons.Default.Delete,
-                                contentDescription = "Удалить",
-                                tint = MaterialTheme.colorScheme.error
-                            )
-                        },
+                    CustomDropdownMenuItem(
+                        text = "Удалить",
+                        leadingIcon = Icons.Default.Delete,
+                        leadingIconTint = MaterialTheme.colorScheme.error,
                         onClick = {
                             showDeleteDialog = true
                             expanded = false

@@ -26,6 +26,9 @@ import java.lang.ref.WeakReference
 import javax.microedition.khronos.egl.EGL10
 import javax.microedition.khronos.egl.EGLContext
 import java.lang.IllegalStateException
+import androidx.compose.runtime.rememberCoroutineScope
+import kotlin.collections.ArrayDeque
+import kotlin.math.max
 
 // Кэш для хранения часто используемых данных с системой истечения срока действия записей
 object Cache {
@@ -38,13 +41,22 @@ object Cache {
     private const val CLEANUP_INTERVAL = 60 * 1000L // Каждую минуту
     private const val MAX_CACHE_SIZE = 100
     
+    // Фиксированный размер кэша для изображений для предотвращения OOM
+    private const val MAX_BITMAP_CACHE_SIZE = 20
+    
     // Класс для хранения записей кэша с временем жизни
     private data class CacheEntry<T>(
         val value: T,
         val creationTime: Long = System.currentTimeMillis(),
-        val ttl: Long = DEFAULT_TTL
+        val ttl: Long = DEFAULT_TTL,
+        var lastAccessTime: Long = System.currentTimeMillis() // Добавляем отслеживание последнего доступа
     ) {
         fun isExpired(): Boolean = System.currentTimeMillis() - creationTime > ttl
+        
+        // Обновляем время последнего доступа
+        fun touch() {
+            lastAccessTime = System.currentTimeMillis()
+        }
     }
     
     fun <T> get(key: String): T? {
@@ -54,14 +66,19 @@ object Cache {
             cache.remove(key)
             return null
         }
+        // Обновляем время последнего доступа
+        entry.touch()
         return entry.value
     }
     
     fun <T> put(key: String, value: T, ttl: Long = DEFAULT_TTL) {
         checkCleanup()
         if (cache.size >= MAX_CACHE_SIZE) {
-            // Удаляем самую старую запись, если превышен размер кэша
-            val oldestEntry = cache.entries.minByOrNull { it.value.creationTime }
+            // Удаляем самую старую или наименее используемую запись
+            val oldestEntry = cache.entries.minByOrNull { 
+                // Комбинируем время создания и последнего доступа для определения приоритета
+                it.value.creationTime * 0.3 + it.value.lastAccessTime * 0.7
+            }
             oldestEntry?.let { cache.remove(it.key) }
         }
         cache[key] = CacheEntry(value as Any, System.currentTimeMillis(), ttl)
@@ -74,11 +91,24 @@ object Cache {
     
     // Получение изображения из кэша
     fun getBitmap(key: String): Bitmap? {
-        return bitmapCache[key]?.get()
+        val bitmap = bitmapCache[key]?.get()
+        // Если нашли битмап в кэше, обновляем его приоритет
+        if (bitmap != null) {
+            // Перемещаем ключ на "верх" кэша, обновляя приоритет
+            val tempRef = bitmapCache.remove(key)
+            tempRef?.let { bitmapCache[key] = it }
+        }
+        return bitmap
     }
     
     // Сохранение изображения в кэш через WeakReference для автоматической очистки
     fun putBitmap(key: String, bitmap: Bitmap) {
+        // Перед добавлением проверяем размер кэша
+        if (bitmapCache.size >= MAX_BITMAP_CACHE_SIZE) {
+            // Удаляем самый старый/редко используемый элемент
+            val oldestKey = bitmapCache.keys.firstOrNull()
+            oldestKey?.let { bitmapCache.remove(it) }
+        }
         bitmapCache[key] = WeakReference(bitmap)
     }
     
@@ -91,12 +121,47 @@ object Cache {
         }
     }
     
+    // Оптимизированная очистка
     private fun cleanupExpiredEntries() {
         // Удаляем истекшие записи
-        cache.entries.removeAll { it.value.isExpired() }
+        val expiredEntries = cache.entries.filter { it.value.isExpired() }
+        expiredEntries.forEach { cache.remove(it.key) }
         
-        // Удаляем null ссылки в bitmapCache
-        bitmapCache.entries.removeAll { it.value.get() == null }
+        // Удаляем null ссылки в bitmapCache с помощью итератора для оптимизации
+        val iter = bitmapCache.iterator()
+        while (iter.hasNext()) {
+            val entry = iter.next()
+            if (entry.value.get() == null) {
+                iter.remove()
+            }
+        }
+    }
+    
+    // Метод для кэширования предзагруженных ресурсов
+    fun preloadResources(context: Context, resourceIds: List<Int>) {
+        CoroutineScope(Dispatchers.IO).launch {
+            resourceIds.forEach { resourceId ->
+                val key = "resource_$resourceId"
+                if (getBitmap(key) == null) {
+                    try {
+                        // Создаем битмап с оптимизированным для памяти форматом
+                        val options = android.graphics.BitmapFactory.Options().apply {
+                            inPreferredConfig = Bitmap.Config.RGB_565
+                        }
+                        val bitmap = android.graphics.BitmapFactory.decodeResource(
+                            context.resources, 
+                            resourceId,
+                            options
+                        )
+                        if (bitmap != null) {
+                            putBitmap(key, bitmap)
+                        }
+                    } catch (e: Exception) {
+                        // Игнорируем ошибки загрузки ресурсов
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -124,31 +189,52 @@ fun rememberLifecycleAwareState(initialValue: Boolean): StateFlow<Boolean> {
 // Композабл для мониторинга и оптимизации пропущенных кадров
 @Composable
 fun MonitorFrameRate(
+    triggerThresholdMs: Int = 32, // Порог для определения медленного кадра (16ms = 60fps, 32ms = 30fps)
     onSlowFrameDetected: (Long) -> Unit = {}
 ) {
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
     
-    DisposableEffect(Unit) {
+    DisposableEffect(triggerThresholdMs) {
         val callback = object : Choreographer.FrameCallback {
             private var lastFrameTimeNanos = 0L
             private var slowFramesCount = 0
+            private val frameTimestamps = ArrayDeque<Long>(10) // Увеличиваем буфер для лучшего анализа
+            private var consecutiveSlowFrames = 0
             
             override fun doFrame(frameTimeNanos: Long) {
                 if (lastFrameTimeNanos > 0) {
                     val deltaMillis = (frameTimeNanos - lastFrameTimeNanos) / 1_000_000
-                    // Если кадр длится больше 32мс (меньше 30fps), считаем его медленным
-                    if (deltaMillis > 32) {
+                    
+                    // Добавляем в очередь временных меток
+                    frameTimestamps.addLast(deltaMillis)
+                    if (frameTimestamps.size > 10) {
+                        frameTimestamps.removeFirst()
+                    }
+                    
+                    // Если кадр длится больше порогового значения, считаем его медленным
+                    if (deltaMillis > triggerThresholdMs) {
                         slowFramesCount++
+                        consecutiveSlowFrames++
                         onSlowFrameDetected(deltaMillis)
                         
-                        // Если медленных кадров много подряд, применяем оптимизации
-                        if (slowFramesCount > 5) {
-                            MemoryOptimizer.optimizeForLowFrameRate(context)
-                            slowFramesCount = 0
+                        // Если медленных кадров много подряд или среднее время кадров выше порога,
+                        // применяем оптимизации
+                        val avgFrameTime = frameTimestamps.sum().toDouble() / max(1, frameTimestamps.size)
+                        
+                        // Более агрессивно реагируем на серии медленных кадров
+                        if (consecutiveSlowFrames >= 3 || slowFramesCount >= 5 || avgFrameTime > triggerThresholdMs * 1.2) {
+                            scope.launch(Dispatchers.Default) {
+                                MemoryOptimizer.optimizeForLowFrameRate(context)
+                            }
+                            slowFramesCount = max(0, slowFramesCount - 3) // Уменьшаем, но не сбрасываем полностью
+                            consecutiveSlowFrames = 0
                         }
                     } else {
-                        // Сбрасываем счетчик, если кадр не медленный
-                        slowFramesCount = 0
+                        // Сбрасываем счетчик последовательных медленных кадров
+                        consecutiveSlowFrames = 0
+                        // Постепенно уменьшаем общий счетчик, но не сбрасываем сразу
+                        if (slowFramesCount > 0) slowFramesCount--
                     }
                 }
                 lastFrameTimeNanos = frameTimeNanos
@@ -156,10 +242,19 @@ fun MonitorFrameRate(
             }
         }
         
-        Choreographer.getInstance().postFrameCallback(callback)
+        try {
+            Choreographer.getInstance().postFrameCallback(callback)
+        } catch (e: Exception) {
+            // Игнорируем возможные ошибки при старте мониторинга
+        }
         
         onDispose {
-            // Нет прямого способа удалить callback, но можно перестать его переназначать
+            try {
+                // Более надежный способ остановки мониторинга
+                Choreographer.getInstance().removeFrameCallback(callback)
+            } catch (e: Exception) {
+                // Игнорируем возможные ошибки при очистке
+            }
         }
     }
 }

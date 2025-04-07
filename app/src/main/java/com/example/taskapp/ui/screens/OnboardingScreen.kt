@@ -22,6 +22,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
@@ -36,6 +37,12 @@ import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.border
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.layout.ContentScale
 
 // Функция линейной интерполяции для анимаций
 private fun lerp(start: Float, stop: Float, fraction: Float): Float {
@@ -289,7 +296,7 @@ fun OnboardingScreen(
                             )
                             if (isLastPage) {
                                 // Анимированная пульсирующая иконка для кнопки "Начать"
-                                val infiniteTransition = rememberInfiniteTransition("button-icon")
+                                val infiniteTransition = rememberInfiniteTransition()
                                 val scale by infiniteTransition.animateFloat(
                                     initialValue = 0.8f,
                                     targetValue = 1.2f,
@@ -323,33 +330,220 @@ fun OnboardingPageContent(page: OnboardingPage) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        // Анимация иконки
-        val infiniteTransition = rememberInfiniteTransition("icon-animation")
+        // Анимированная иконка
+        val infiniteTransition = rememberInfiniteTransition()
+        
+        // Общая пульсация для всех иконок
         val scale by infiniteTransition.animateFloat(
             initialValue = 0.9f,
             targetValue = 1.1f,
             animationSpec = infiniteRepeatable(
-                animation = tween(1000, easing = FastOutSlowInEasing),
+                animation = tween(1500, easing = FastOutSlowInEasing),
                 repeatMode = RepeatMode.Reverse
             ),
             label = "icon-scale"
         )
         
-        // Иконка с кругом
+        // Анимация вращения
+        val rotation by infiniteTransition.animateFloat(
+            initialValue = 0f,
+            targetValue = 360f,
+            animationSpec = infiniteRepeatable(
+                animation = tween(10000, easing = LinearEasing)
+            ),
+            label = "icon-rotation"
+        )
+        
+        // Эффект свечения
+        val glowAlpha by infiniteTransition.animateFloat(
+            initialValue = 0.2f,
+            targetValue = 0.8f,
+            animationSpec = infiniteRepeatable(
+                animation = tween(1500, easing = FastOutSlowInEasing),
+                repeatMode = RepeatMode.Reverse
+            ),
+            label = "glow-alpha"
+        )
+        
+        // Отображение иконки с разными эффектами в зависимости от типа
         Box(
             modifier = Modifier
-                .size(120.dp)
-                .scale(scale)
-                .clip(RoundedCornerShape(60.dp))
-                .background(MaterialTheme.colorScheme.primaryContainer),
+                .size(140.dp)
+                .padding(8.dp),
             contentAlignment = Alignment.Center
         ) {
-            Icon(
-                imageVector = page.icon,
-                contentDescription = page.title,
-                tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                modifier = Modifier.size(64.dp)
+            // Круг свечения для всех иконок
+            Box(
+                modifier = Modifier
+                    .size(130.dp)
+                    .alpha(glowAlpha)
+                    .clip(CircleShape)
+                    .background(
+                        brush = Brush.radialGradient(
+                            colors = listOf(
+                                MaterialTheme.colorScheme.primary,
+                                MaterialTheme.colorScheme.primary.copy(alpha = 0.0f)
+                            )
+                        )
+                    )
             )
+            
+            // Декоративный элемент, вращающийся для эффекта
+            when (page.icon) {
+                Icons.Default.School -> {
+                    // Для школы - вращающийся внешний круг
+                    Box(
+                        modifier = Modifier
+                            .size(120.dp)
+                            .graphicsLayer {
+                                rotationZ = rotation
+                            }
+                            .border(
+                                width = 2.dp,
+                                brush = Brush.sweepGradient(
+                                    colors = listOf(
+                                        MaterialTheme.colorScheme.primary,
+                                        MaterialTheme.colorScheme.secondary,
+                                        MaterialTheme.colorScheme.tertiary,
+                                        MaterialTheme.colorScheme.primary
+                                    )
+                                ),
+                                shape = CircleShape
+                            )
+                    )
+                }
+                
+                Icons.Default.Person -> {
+                    // Для преподавателей - несколько кругов
+                    Box(
+                        modifier = Modifier
+                            .size(120.dp)
+                            .graphicsLayer {
+                                rotationZ = rotation / 2
+                            }
+                            .border(
+                                width = 2.dp,
+                                color = MaterialTheme.colorScheme.secondary,
+                                shape = CircleShape
+                            )
+                    )
+                    
+                    Box(
+                        modifier = Modifier
+                            .size(100.dp)
+                            .graphicsLayer {
+                                rotationZ = -rotation / 3
+                            }
+                            .border(
+                                width = 1.dp,
+                                color = MaterialTheme.colorScheme.primary,
+                                shape = CircleShape
+                            )
+                    )
+                }
+                
+                Icons.Default.Assignment -> {
+                    // Для задач - прямоугольник с скругленными углами
+                    Box(
+                        modifier = Modifier
+                            .size(110.dp)
+                            .clip(RoundedCornerShape(16.dp))
+                            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f))
+                            .border(
+                                width = 2.dp,
+                                color = MaterialTheme.colorScheme.primary.copy(alpha = glowAlpha),
+                                shape = RoundedCornerShape(16.dp)
+                            )
+                    )
+                }
+                
+                Icons.Default.Notifications -> {
+                    // Для уведомлений - пульсирующие круги
+                    Box(
+                        modifier = Modifier
+                            .size(120.dp * scale)
+                            .alpha((1f - scale) + 0.3f)
+                            .border(
+                                width = 1.dp,
+                                color = MaterialTheme.colorScheme.tertiary,
+                                shape = CircleShape
+                            )
+                    )
+                    
+                    Box(
+                        modifier = Modifier
+                            .size(100.dp * scale)
+                            .alpha((1f - scale) + 0.3f)
+                            .border(
+                                width = 1.dp,
+                                color = MaterialTheme.colorScheme.tertiary,
+                                shape = CircleShape
+                            )
+                    )
+                }
+                
+                Icons.Default.Settings -> {
+                    // Для настроек - вращающиеся круги
+                    Box(
+                        modifier = Modifier
+                            .size(120.dp)
+                            .graphicsLayer {
+                                rotationZ = rotation
+                            }
+                            .border(
+                                width = 2.dp,
+                                color = MaterialTheme.colorScheme.primary,
+                                shape = CircleShape
+                            )
+                    )
+                    
+                    Box(
+                        modifier = Modifier
+                            .size(80.dp)
+                            .graphicsLayer {
+                                rotationZ = -rotation
+                            }
+                            .border(
+                                width = 2.dp,
+                                color = MaterialTheme.colorScheme.secondary,
+                                shape = CircleShape
+                            )
+                    )
+                }
+            }
+            
+            // Центральная иконка
+            Box(
+                modifier = Modifier
+                    .size(80.dp)
+                    .scale(scale)
+                    .clip(CircleShape)
+                    .background(
+                        when (page.icon) {
+                            Icons.Default.School -> MaterialTheme.colorScheme.primary
+                            Icons.Default.Person -> MaterialTheme.colorScheme.secondary
+                            Icons.Default.Assignment -> MaterialTheme.colorScheme.primaryContainer
+                            Icons.Default.Notifications -> MaterialTheme.colorScheme.tertiary
+                            Icons.Default.Settings -> MaterialTheme.colorScheme.surfaceVariant
+                            else -> MaterialTheme.colorScheme.primary
+                        }
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = page.icon,
+                    contentDescription = page.title,
+                    tint = when (page.icon) {
+                        Icons.Default.School -> MaterialTheme.colorScheme.onPrimary
+                        Icons.Default.Person -> MaterialTheme.colorScheme.onSecondary
+                        Icons.Default.Assignment -> MaterialTheme.colorScheme.onPrimaryContainer
+                        Icons.Default.Notifications -> MaterialTheme.colorScheme.onTertiary
+                        Icons.Default.Settings -> MaterialTheme.colorScheme.onSurfaceVariant
+                        else -> MaterialTheme.colorScheme.onPrimary
+                    },
+                    modifier = Modifier.size(48.dp)
+                )
+            }
         }
         
         Spacer(modifier = Modifier.height(32.dp))
@@ -377,7 +571,7 @@ fun OnboardingPageContent(page: OnboardingPage) {
 @Composable
 fun WelcomeAnimation() {
     // Анимация для масштабирования
-    val infiniteTransition = rememberInfiniteTransition("welcome-animation")
+    val infiniteTransition = rememberInfiniteTransition()
     val scale by infiniteTransition.animateFloat(
         initialValue = 1f,
         targetValue = 1.1f,

@@ -27,8 +27,9 @@ import kotlin.random.Random
 fun InteractiveBackground(
     modifier: Modifier = Modifier,
     isDarkTheme: Boolean,
-    uncompletedTasksCount: Int,
-    isAllTasksCompleted: Boolean,
+    uncompletedTasksCount: Int = 0,
+    isAllTasksCompleted: Boolean = false,
+    onAnimationComplete: () -> Unit = {},
     pulseStrength: Float = 1f
 ) {
     // Принудительно обновляем компонент при изменении счетчика задач
