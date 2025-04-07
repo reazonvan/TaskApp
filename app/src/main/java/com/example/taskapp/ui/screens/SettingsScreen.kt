@@ -35,6 +35,7 @@ fun SettingsScreen(
     isDarkTheme: Boolean,
     onToggleTheme: () -> Unit,
     onNavigateToAbout: () -> Unit,
+    onNavigateToDeveloperOptions: () -> Unit,
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
     // Состояния настроек
@@ -256,60 +257,6 @@ fun SettingsScreen(
                     )
                 }
                 
-                // Кнопка отправки тестового уведомления
-                item {
-                    var showDialog by remember { mutableStateOf(false) }
-                    var testResult by remember { mutableStateOf<Pair<Boolean, String?>?>(null) }
-                    var isLoading by remember { mutableStateOf(false) }
-                    
-                    TestNotificationButton(
-                        onClick = {
-                            isLoading = true
-                            viewModel.sendTestNotification { result ->
-                                testResult = result
-                                showDialog = true
-                                isLoading = false
-                            }
-                        },
-                        isLoading = isLoading
-                    )
-                    
-                    // Диалог с результатом отправки тестового уведомления
-                    if (showDialog) {
-                        AlertDialog(
-                            onDismissRequest = { 
-                                showDialog = false
-                                testResult = null
-                            },
-                            title = {
-                                Text(text = if (testResult?.first == true) "Успешно!" else "Ошибка")
-                            },
-                            text = {
-                                Text(
-                                    text = testResult?.second ?: 
-                                        if (testResult?.first == true) "Тестовое уведомление отправлено. Проверьте панель уведомлений." 
-                                        else "Не удалось отправить тестовое уведомление."
-                                )
-                            },
-                            confirmButton = {
-                                TextButton(onClick = { 
-                                    showDialog = false
-                                    testResult = null
-                                }) {
-                                    Text("ОК")
-                                }
-                            },
-                            icon = {
-                                Icon(
-                                    imageVector = if (testResult?.first == true) Icons.Default.CheckCircle else Icons.Default.Error,
-                                    contentDescription = null,
-                                    tint = if (testResult?.first == true) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error
-                                )
-                            }
-                        )
-                    }
-                }
-                
                 // Режим "Не беспокоить"
                 item {
                     SwitchSetting(
@@ -384,20 +331,39 @@ fun SettingsScreen(
                     )
                 }
                 
-                // Добавляем раздел "О приложении" в самый конец
+                // Разделитель и заголовок для Разработка
+                item {
+                    Spacer(modifier = Modifier.height(16.dp))
+                    SettingsHeader(
+                        icon = Icons.Default.Code,
+                        title = "Разработка"
+                    )
+                }
+                
+                // Пункт для перехода к настройкам разработчика
+                item {
+                    ActionSetting(
+                        title = "Настройки разработчика",
+                        description = "Тестовые функции и отладочные инструменты",
+                        onClick = onNavigateToDeveloperOptions,
+                        icon = Icons.Default.BugReport
+                    )
+                }
+                
+                // Разделитель для следующей секции (О приложении)
                 item {
                     Spacer(modifier = Modifier.height(16.dp))
                     SettingsHeader(
                         icon = Icons.Default.Info,
-                        title = "Информация"
+                        title = "О приложении"
                     )
                 }
                 
-                // Кнопка "О приложении"
+                // Пункт "О приложении"
                 item {
                     ActionSetting(
                         title = "О приложении",
-                        description = "Информация о версии и настройках",
+                        description = "Информация о приложении и авторах",
                         onClick = onNavigateToAbout,
                         icon = Icons.Default.Info
                     )
@@ -860,52 +826,6 @@ fun ActionSetting(
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.size(20.dp)
-            )
-        }
-    }
-}
-
-@Composable
-fun TestNotificationButton(
-    onClick: () -> Unit,
-    isLoading: Boolean
-) {
-    Surface(
-        color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.7f),
-        shape = MaterialTheme.shapes.medium,
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(enabled = !isLoading, onClick = onClick)
-    ) {
-        Row(
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
-        ) {
-            if (isLoading) {
-                CircularProgressIndicator(
-                    modifier = Modifier
-                        .size(24.dp)
-                        .padding(end = 16.dp),
-                    strokeWidth = 2.dp
-                )
-            } else {
-                Icon(
-                    imageVector = Icons.Default.NotificationsActive,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                    modifier = Modifier
-                        .padding(end = 16.dp)
-                        .size(24.dp)
-                )
-            }
-            
-            Text(
-                text = if (isLoading) "Отправка..." else "Отправить тестовое уведомление",
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
     }

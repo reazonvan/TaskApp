@@ -35,6 +35,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.taskapp.ui.viewmodels.ThemeViewModel
 import com.example.taskapp.ui.viewmodels.SettingsViewModel
+import com.example.taskapp.navigation.setShouldShowOnboarding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -99,6 +100,10 @@ class MainActivity : ComponentActivity() {
             val animationIntensity by settingsViewModel.animationIntensity.collectAsState()
             val textSize by settingsViewModel.textSize.collectAsState()
             val simplifiedMode by settingsViewModel.simplifiedMode.collectAsState()
+            val onboardingCompleted by settingsViewModel.onboardingCompleted.collectAsState()
+            
+            // Устанавливаем флаг онбординга в зависимости от настроек
+            setShouldShowOnboarding(!onboardingCompleted)
             
             // Если включен упрощенный режим, принудительно активируем режим экономии ресурсов
             val effectiveLowPerformanceMode = isLowPerformanceMode || simplifiedMode
@@ -125,7 +130,8 @@ class MainActivity : ComponentActivity() {
                     isLowPerformanceMode = effectiveLowPerformanceMode,
                     isDarkTheme = isDarkTheme,
                     onToggleTheme = themeViewModel::toggleTheme,
-                    animationIntensity = animationIntensity
+                    animationIntensity = animationIntensity,
+                    onOnboardingComplete = { settingsViewModel.setOnboardingCompleted(true) }
                 )
             }
         }
@@ -166,7 +172,8 @@ fun AppContent(
     isLowPerformanceMode: Boolean,
     isDarkTheme: Boolean,
     onToggleTheme: () -> Unit,
-    animationIntensity: Float
+    animationIntensity: Float,
+    onOnboardingComplete: () -> Unit
 ) {
     // Используем remember для кэширования контроллера навигации
     val navController = rememberNavController()
@@ -214,7 +221,8 @@ fun AppContent(
                 navController = navController,
                 isDarkTheme = isDarkTheme,
                 onToggleTheme = onToggleTheme,
-                key = recomposeKey.value
+                key = recomposeKey.value,
+                onOnboardingComplete = onOnboardingComplete
             )
         }
         

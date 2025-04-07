@@ -32,7 +32,8 @@ data class AppSettings(
     val doNotDisturbStart: Int = 22,
     val doNotDisturbEnd: Int = 7,
     val updateInterval: Int = 5000,
-    val simplifiedMode: Boolean = false
+    val simplifiedMode: Boolean = false,
+    val onboardingCompleted: Boolean = false
 )
 
 @Singleton
@@ -55,6 +56,7 @@ class SettingsRepository @Inject constructor(
         val DO_NOT_DISTURB_END = intPreferencesKey("do_not_disturb_end")
         val UPDATE_INTERVAL = intPreferencesKey("update_interval")
         val SIMPLIFIED_MODE = booleanPreferencesKey("simplified_mode")
+        val ONBOARDING_COMPLETED = booleanPreferencesKey("onboarding_completed")
     }
     
     // Получение всех настроек
@@ -81,7 +83,8 @@ class SettingsRepository @Inject constructor(
                 doNotDisturbStart = preferences[PreferencesKeys.DO_NOT_DISTURB_START] ?: 22,
                 doNotDisturbEnd = preferences[PreferencesKeys.DO_NOT_DISTURB_END] ?: 7,
                 updateInterval = preferences[PreferencesKeys.UPDATE_INTERVAL] ?: 5000,
-                simplifiedMode = preferences[PreferencesKeys.SIMPLIFIED_MODE] ?: false
+                simplifiedMode = preferences[PreferencesKeys.SIMPLIFIED_MODE] ?: false,
+                onboardingCompleted = preferences[PreferencesKeys.ONBOARDING_COMPLETED] ?: false
             )
         }
     
@@ -174,6 +177,19 @@ class SettingsRepository @Inject constructor(
     suspend fun updateSimplifiedMode(value: Boolean) {
         context.dataStore.edit { preferences ->
             preferences[PreferencesKeys.SIMPLIFIED_MODE] = value
+        }
+    }
+    
+    // Метод для получения статуса завершения онбординга
+    fun isOnboardingCompleted(): Flow<Boolean> = context.dataStore.data
+        .map { preferences ->
+            preferences[PreferencesKeys.ONBOARDING_COMPLETED] ?: false
+        }
+    
+    // Метод для установки статуса завершения онбординга
+    suspend fun setOnboardingCompleted(completed: Boolean) {
+        context.dataStore.edit { preferences ->
+            preferences[PreferencesKeys.ONBOARDING_COMPLETED] = completed
         }
     }
     

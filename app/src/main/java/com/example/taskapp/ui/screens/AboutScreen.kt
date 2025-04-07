@@ -155,7 +155,7 @@ fun AboutScreen(
                         InfoRow(title = "Версия", value = "1.0.0")
                         InfoRow(title = "Сборка", value = "10")
                         InfoRow(title = "Дата сборки", value = DateFormatUtil.formatDateTime(today, appSettings))
-                        InfoRow(title = "Разработчик", value = "Команда TaskApp")
+                        InfoRow(title = "Разработчик", value = "Петров И. Д.")
                     }
                 }
                 
@@ -230,7 +230,7 @@ fun AboutScreen(
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(
-                                text = "© 2023 TaskApp Team. Все права защищены.",
+                                text = "© 2025 TaskApp Team. Все права защищены.",
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
@@ -266,36 +266,6 @@ fun AboutScreen(
                         }
                     }
                     Spacer(modifier = Modifier.height(16.dp))
-                }
-                
-                // Добавляем кнопку для отправки тестового уведомления
-                Button(
-                    onClick = {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !hasNotificationPermission) {
-                            // Запрашиваем разрешение
-                            permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-                        } else {
-                            // Уже есть разрешение, можно отправлять
-                            coroutineScope.launch {
-                                notificationScheduler.sendTestNotification()
-                            }
-                        }
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary
-                    )
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Notifications,
-                        contentDescription = null,
-                        modifier = Modifier.size(24.dp)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = "Отправить тестовое уведомление",
-                        style = MaterialTheme.typography.bodyMedium
-                    )
                 }
                 
                 Spacer(modifier = Modifier.height(24.dp))

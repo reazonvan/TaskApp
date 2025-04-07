@@ -63,6 +63,10 @@ class SettingsViewModel @Inject constructor(
     private val _simplifiedMode = MutableStateFlow(false)
     val simplifiedMode: StateFlow<Boolean> = _simplifiedMode.asStateFlow()
     
+    // Состояние для статуса завершения онбординга
+    private val _onboardingCompleted = MutableStateFlow(false)
+    val onboardingCompleted: StateFlow<Boolean> = _onboardingCompleted.asStateFlow()
+    
     init {
         loadSettings()
     }
@@ -85,6 +89,7 @@ class SettingsViewModel @Inject constructor(
                 _doNotDisturbEnd.value = settings.doNotDisturbEnd
                 _updateInterval.value = settings.updateInterval
                 _simplifiedMode.value = settings.simplifiedMode
+                _onboardingCompleted.value = settings.onboardingCompleted
             }
         }
     }
@@ -189,6 +194,14 @@ class SettingsViewModel @Inject constructor(
         _simplifiedMode.value = value
         viewModelScope.launch {
             settingsRepository.updateSimplifiedMode(value)
+        }
+    }
+    
+    // Метод для установки статуса завершения онбординга
+    fun setOnboardingCompleted(completed: Boolean) {
+        _onboardingCompleted.value = completed
+        viewModelScope.launch {
+            settingsRepository.setOnboardingCompleted(completed)
         }
     }
 

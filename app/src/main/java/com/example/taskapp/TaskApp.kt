@@ -9,6 +9,7 @@ import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
+import com.example.taskapp.notifications.TestNotificationManager
 
 @HiltAndroidApp
 class TaskApp : Application(), Configuration.Provider {
@@ -17,10 +18,15 @@ class TaskApp : Application(), Configuration.Provider {
     
     override fun onCreate() {
         super.onCreate()
+        
+        // Инициализируем канал для тестовых уведомлений
+        TestNotificationManager.createNotificationChannel(this)
+        
         // Создаем канал уведомлений (требуется для Android 8.0+)
         createNotificationChannel()
     }
     
+    // Реализация интерфейса Configuration.Provider
     override val workManagerConfiguration: Configuration
         get() = Configuration.Builder()
             .setWorkerFactory(workerFactory)
