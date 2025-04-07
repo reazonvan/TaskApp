@@ -1,9 +1,13 @@
 package com.example.taskapp
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -15,9 +19,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.core.content.ContextCompat
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.taskapp.ui.theme.TaskAppTheme
+import com.example.taskapp.ui.theme.AppTheme
+import com.example.taskapp.data.repository.AppSettings
+import com.example.taskapp.data.repository.SettingsRepository
 import com.example.taskapp.navigation.NavGraph
 import com.example.taskapp.navigation.Screen
 import com.example.taskapp.ui.components.FloatingBackground
@@ -26,11 +34,13 @@ import com.example.taskapp.util.MonitorFrameRate
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.taskapp.ui.viewmodels.ThemeViewModel
+import com.example.taskapp.ui.viewmodels.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -38,8 +48,33 @@ class MainActivity : ComponentActivity() {
     // Настройки оптимизации
     private var isLowPerformanceMode = false
     
+    @Inject
+    lateinit var settingsRepository: SettingsRepository
+    
+    // Регистрируем обработчик запроса разрешений
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            Log.d(TAG, "Разрешение на отправку уведомлений получено")
+        } else {
+            Log.d(TAG, "Разрешение на отправку уведомлений отклонено")
+        }
+    }
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        // Запрашиваем разрешение на отправку уведомлений для Android 13+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
         
         // Запускаем периодическую очистку памяти в фоновом потоке
         lifecycleScope.launch(Dispatchers.Default) {
@@ -57,16 +92,41 @@ class MainActivity : ComponentActivity() {
         setContent {
             // Создаем ViewModel через Hilt
             val themeViewModel: ThemeViewModel = viewModel()
+            val settingsViewModel: SettingsViewModel = viewModel()
             val isDarkTheme by themeViewModel.isDarkTheme.collectAsState()
             
-            TaskAppTheme(darkTheme = isDarkTheme) {
+            // Получаем настройки
+            val animationIntensity by settingsViewModel.animationIntensity.collectAsState()
+            val textSize by settingsViewModel.textSize.collectAsState()
+            val simplifiedMode by settingsViewModel.simplifiedMode.collectAsState()
+            
+            // Если включен упрощенный режим, принудительно активируем режим экономии ресурсов
+            val effectiveLowPerformanceMode = isLowPerformanceMode || simplifiedMode
+            
+            // Создаем объект настроек для передачи в тему
+            val appSettings = AppSettings(
+                colorScheme = 0,
+                animationIntensity = animationIntensity,
+                textSize = textSize,
+                simplifiedMode = simplifiedMode
+            )
+            
+            AppTheme(
+                isDarkTheme = isDarkTheme,
+                appSettings = appSettings
+            ) {
                 // Мониторинг частоты кадров
                 MonitorFrameRate { slowFrameTime ->
                     Log.d(TAG, "Медленный кадр: $slowFrameTime мс")
                 }
                 
                 // Основной контент приложения
-                AppContent(isLowPerformanceMode, isDarkTheme, themeViewModel::toggleTheme)
+                AppContent(
+                    isLowPerformanceMode = effectiveLowPerformanceMode,
+                    isDarkTheme = isDarkTheme,
+                    onToggleTheme = themeViewModel::toggleTheme,
+                    animationIntensity = animationIntensity
+                )
             }
         }
     }
@@ -105,7 +165,8 @@ class MainActivity : ComponentActivity() {
 fun AppContent(
     isLowPerformanceMode: Boolean,
     isDarkTheme: Boolean,
-    onToggleTheme: () -> Unit
+    onToggleTheme: () -> Unit,
+    animationIntensity: Float
 ) {
     // Используем remember для кэширования контроллера навигации
     val navController = rememberNavController()
@@ -128,12 +189,26 @@ fun AppContent(
         color = MaterialTheme.colorScheme.background
     ) {
         // Применяем оптимизированный фон с плавающими элементами
-        // Параметры оптимизации зависят от режима производительности
-                    FloatingBackground(
-                        modifier = Modifier.fillMaxSize(),
+        // Параметры оптимизации зависят от режима производительности и интенсивности анимации
+        val effectiveParticleCount = when {
+            isLowPerformanceMode -> 8
+            animationIntensity < 0.5f -> 15
+            animationIntensity < 1.0f -> 25
+            else -> 40
+        }
+        
+        val effectiveAnimationDuration = when {
+            isLowPerformanceMode -> 10000
+            animationIntensity < 0.5f -> 8000
+            animationIntensity < 1.0f -> 6000
+            else -> 4000
+        }
+        
+        FloatingBackground(
+            modifier = Modifier.fillMaxSize(),
             optimized = isLowPerformanceMode,
-            particleCount = if (isLowPerformanceMode) 15 else 30,
-            animationDuration = if (isLowPerformanceMode) 10000 else 6000
+            particleCount = effectiveParticleCount,
+            animationDuration = effectiveAnimationDuration
         ) {
             NavGraph(
                 navController = navController,

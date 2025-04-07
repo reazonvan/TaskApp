@@ -34,6 +34,7 @@ fun SettingsScreen(
     onNavigateBack: () -> Unit,
     isDarkTheme: Boolean,
     onToggleTheme: () -> Unit,
+    onNavigateToAbout: () -> Unit,
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
     // Состояния настроек
@@ -255,6 +256,60 @@ fun SettingsScreen(
                     )
                 }
                 
+                // Кнопка отправки тестового уведомления
+                item {
+                    var showDialog by remember { mutableStateOf(false) }
+                    var testResult by remember { mutableStateOf<Pair<Boolean, String?>?>(null) }
+                    var isLoading by remember { mutableStateOf(false) }
+                    
+                    TestNotificationButton(
+                        onClick = {
+                            isLoading = true
+                            viewModel.sendTestNotification { result ->
+                                testResult = result
+                                showDialog = true
+                                isLoading = false
+                            }
+                        },
+                        isLoading = isLoading
+                    )
+                    
+                    // Диалог с результатом отправки тестового уведомления
+                    if (showDialog) {
+                        AlertDialog(
+                            onDismissRequest = { 
+                                showDialog = false
+                                testResult = null
+                            },
+                            title = {
+                                Text(text = if (testResult?.first == true) "Успешно!" else "Ошибка")
+                            },
+                            text = {
+                                Text(
+                                    text = testResult?.second ?: 
+                                        if (testResult?.first == true) "Тестовое уведомление отправлено. Проверьте панель уведомлений." 
+                                        else "Не удалось отправить тестовое уведомление."
+                                )
+                            },
+                            confirmButton = {
+                                TextButton(onClick = { 
+                                    showDialog = false
+                                    testResult = null
+                                }) {
+                                    Text("ОК")
+                                }
+                            },
+                            icon = {
+                                Icon(
+                                    imageVector = if (testResult?.first == true) Icons.Default.CheckCircle else Icons.Default.Error,
+                                    contentDescription = null,
+                                    tint = if (testResult?.first == true) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error
+                                )
+                            }
+                        )
+                    }
+                }
+                
                 // Режим "Не беспокоить"
                 item {
                     SwitchSetting(
@@ -274,7 +329,8 @@ fun SettingsScreen(
                             startHour = doNotDisturbStart,
                             endHour = doNotDisturbEnd,
                             onTimeRangeChanged = { start, end ->
-                                viewModel.updateDoNotDisturbTime(start, end)
+                                viewModel.updateDoNotDisturbStart(start)
+                                viewModel.updateDoNotDisturbEnd(end)
                             }
                         )
                     }
@@ -325,6 +381,25 @@ fun SettingsScreen(
                         checked = simplifiedMode,
                         onCheckedChange = { viewModel.updateSimplifiedMode(it) },
                         icon = Icons.Default.BatteryChargingFull
+                    )
+                }
+                
+                // Добавляем раздел "О приложении" в самый конец
+                item {
+                    Spacer(modifier = Modifier.height(16.dp))
+                    SettingsHeader(
+                        icon = Icons.Default.Info,
+                        title = "Информация"
+                    )
+                }
+                
+                // Кнопка "О приложении"
+                item {
+                    ActionSetting(
+                        title = "О приложении",
+                        description = "Информация о версии и настройках",
+                        onClick = onNavigateToAbout,
+                        icon = Icons.Default.Info
                     )
                 }
                 
@@ -727,5 +802,111 @@ fun SliderSetting(
             steps = steps,
             modifier = Modifier.fillMaxWidth()
         )
+    }
+}
+
+@Composable
+fun ActionSetting(
+    title: String,
+    description: String,
+    onClick: () -> Unit,
+    icon: androidx.compose.ui.graphics.vector.ImageVector
+) {
+    Surface(
+        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.7f),
+        shape = MaterialTheme.shapes.medium,
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            // Иконка
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier
+                    .padding(end = 16.dp)
+                    .size(24.dp)
+            )
+            
+            // Текст и описание
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                
+                if (description.isNotEmpty()) {
+                    Text(
+                        text = description,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+            
+            // Стрелка вправо
+            Icon(
+                imageVector = Icons.Default.ArrowForward,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.size(20.dp)
+            )
+        }
+    }
+}
+
+@Composable
+fun TestNotificationButton(
+    onClick: () -> Unit,
+    isLoading: Boolean
+) {
+    Surface(
+        color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.7f),
+        shape = MaterialTheme.shapes.medium,
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(enabled = !isLoading, onClick = onClick)
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            if (isLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .size(24.dp)
+                        .padding(end = 16.dp),
+                    strokeWidth = 2.dp
+                )
+            } else {
+                Icon(
+                    imageVector = Icons.Default.NotificationsActive,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                    modifier = Modifier
+                        .padding(end = 16.dp)
+                        .size(24.dp)
+                )
+            }
+            
+            Text(
+                text = if (isLoading) "Отправка..." else "Отправить тестовое уведомление",
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onPrimaryContainer
+            )
+        }
     }
 } 

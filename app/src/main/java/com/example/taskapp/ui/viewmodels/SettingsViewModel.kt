@@ -3,6 +3,7 @@ package com.example.taskapp.ui.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.taskapp.data.repository.SettingsRepository
+import com.example.taskapp.notifications.NotificationScheduler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -12,7 +13,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val settingsRepository: SettingsRepository
+    private val settingsRepository: SettingsRepository,
+    val notificationScheduler: NotificationScheduler
 ) : ViewModel() {
     
     // Состояния настроек интерфейса
@@ -134,6 +136,7 @@ class SettingsViewModel @Inject constructor(
         _notificationTime.value = value
         viewModelScope.launch {
             settingsRepository.updateNotificationTime(value)
+            notificationScheduler.rescheduleAllNotificationsAfterSettingsChange()
         }
     }
     
@@ -155,14 +158,23 @@ class SettingsViewModel @Inject constructor(
         _doNotDisturbEnabled.value = value
         viewModelScope.launch {
             settingsRepository.updateDoNotDisturbEnabled(value)
+            notificationScheduler.rescheduleAllNotificationsAfterSettingsChange()
         }
     }
     
-    fun updateDoNotDisturbTime(start: Int, end: Int) {
-        _doNotDisturbStart.value = start
-        _doNotDisturbEnd.value = end
+    fun updateDoNotDisturbStart(value: Int) {
+        _doNotDisturbStart.value = value
         viewModelScope.launch {
-            settingsRepository.updateDoNotDisturbTime(start, end)
+            settingsRepository.updateDoNotDisturbStart(value)
+            notificationScheduler.rescheduleAllNotificationsAfterSettingsChange()
+        }
+    }
+    
+    fun updateDoNotDisturbEnd(value: Int) {
+        _doNotDisturbEnd.value = value
+        viewModelScope.launch {
+            settingsRepository.updateDoNotDisturbEnd(value)
+            notificationScheduler.rescheduleAllNotificationsAfterSettingsChange()
         }
     }
     
@@ -177,6 +189,32 @@ class SettingsViewModel @Inject constructor(
         _simplifiedMode.value = value
         viewModelScope.launch {
             settingsRepository.updateSimplifiedMode(value)
+        }
+    }
+
+    /**
+     * Отправляет тестовое уведомление и возвращает результат через колбэк
+     * @param callback Функция обратного вызова, которая будет вызвана с результатом (успех, сообщение)
+     */
+    fun sendTestNotification(callback: (Pair<Boolean, String?>) -> Unit) {
+        viewModelScope.launch {
+            try {
+                // Проверяем, активен ли канал уведомлений
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    if (!settingsRepository.isNotificationChannelEnabled()) {
+                        callback(Pair(false, "Канал уведомлений отключен в настройках системы. " +
+                                "Пожалуйста, включите уведомления для приложения в настройках Android."))
+                        return@launch
+                    }
+                }
+                
+                // Отправляем тестовое уведомление
+                val result = notificationScheduler.sendTestNotification()
+                callback(result)
+            } catch (e: Exception) {
+                // Обрабатываем любые исключения
+                callback(Pair(false, "Ошибка: ${e.message}"))
+            }
         }
     }
 } 

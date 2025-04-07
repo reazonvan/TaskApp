@@ -113,4 +113,27 @@ val AppTypography = Typography(
         lineHeight = 16.sp,
         letterSpacing = 0.5.sp
     )
-) 
+)
+
+// Расширение для масштабирования типографики в зависимости от настроек
+fun Typography.scale(textSizePreference: Int): Typography {
+    val scaleFactor = getTextSizeMultiplier(textSizePreference)
+    
+    return copy(
+        displayLarge = displayLarge.copy(fontSize = displayLarge.fontSize * scaleFactor),
+        displayMedium = displayMedium.copy(fontSize = displayMedium.fontSize * scaleFactor),
+        displaySmall = displaySmall.copy(fontSize = displaySmall.fontSize * scaleFactor),
+        headlineLarge = headlineLarge.copy(fontSize = headlineLarge.fontSize * scaleFactor),
+        headlineMedium = headlineMedium.copy(fontSize = headlineMedium.fontSize * scaleFactor),
+        headlineSmall = headlineSmall.copy(fontSize = headlineSmall.fontSize * scaleFactor),
+        titleLarge = titleLarge.copy(fontSize = titleLarge.fontSize * scaleFactor),
+        titleMedium = titleMedium.copy(fontSize = titleMedium.fontSize * scaleFactor),
+        titleSmall = titleSmall.copy(fontSize = titleSmall.fontSize * scaleFactor),
+        bodyLarge = bodyLarge.copy(fontSize = bodyLarge.fontSize * scaleFactor),
+        bodyMedium = bodyMedium.copy(fontSize = bodyMedium.fontSize * scaleFactor),
+        bodySmall = bodySmall.copy(fontSize = bodySmall.fontSize * scaleFactor),
+        labelLarge = labelLarge.copy(fontSize = labelLarge.fontSize * scaleFactor),
+        labelMedium = labelMedium.copy(fontSize = labelMedium.fontSize * scaleFactor),
+        labelSmall = labelSmall.copy(fontSize = labelSmall.fontSize * scaleFactor)
+    )
+} 

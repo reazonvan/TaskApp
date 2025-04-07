@@ -7,8 +7,15 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.sp
+import com.example.taskapp.data.repository.AppSettings
+
+// Создаем CompositionLocal для настроек приложения
+val LocalAppSettings = compositionLocalOf { AppSettings() }
 
 // Единая цветовая схема для всего приложения
 private val LightColorScheme = lightColorScheme(
@@ -175,19 +182,40 @@ val ParticleColors = object {
     )
 }
 
+// Получение масштаба текста в зависимости от настроек
+fun getTextSizeMultiplier(textSizePreference: Int): Float {
+    return when (textSizePreference) {
+        0 -> 0.85f // Маленький
+        1 -> 1.0f  // Средний (стандартный)
+        2 -> 1.2f  // Большой
+        else -> 1.0f
+    }
+}
+
+// Функция для изменения размера в зависимости от настроек
+fun TextUnit.applyFontScale(textSizePreference: Int): TextUnit {
+    return this.times(getTextSizeMultiplier(textSizePreference))
+}
+
 // Единая тема приложения
 @Composable
 fun AppTheme(
     isDarkTheme: Boolean = isSystemInDarkTheme(),
+    appSettings: AppSettings = AppSettings(),
     content: @Composable () -> Unit
 ) {
     val colorScheme = if (isDarkTheme) DarkColorScheme else LightColorScheme
     
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = AppTypography,
-        content = content
-    )
+    // Предоставляем настройки через CompositionLocal
+    CompositionLocalProvider(
+        LocalAppSettings provides appSettings
+    ) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = AppTypography.scale(appSettings.textSize),
+            content = content
+        )
+    }
 }
 
 // Расширение для определения темной темы

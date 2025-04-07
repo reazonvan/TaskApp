@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalConfiguration
+import com.example.taskapp.ui.theme.LocalAppSettings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlin.math.cos
@@ -52,23 +53,38 @@ fun FloatingBackground(
     optimized: Boolean = false,
     content: @Composable () -> Unit = {}
 ) {
+    // Получаем настройки приложения
+    val appSettings = LocalAppSettings.current
+    
+    // Проверяем и ограничиваем интенсивность анимации в безопасном диапазоне
+    val safeAnimationIntensity = appSettings.animationIntensity.coerceIn(0.1f, 2.0f)
+    
+    // Применяем интенсивность анимации к длительности и количеству частиц
+    val effectiveParticleCount = (particleCount * safeAnimationIntensity).toInt().coerceIn(5, 50)
+    
+    // Используем обратно пропорциональное отношение: чем выше интенсивность, тем меньше длительность
+    val effectiveAnimationDuration = (animationDuration / safeAnimationIntensity).toInt().coerceIn(2000, 15000)
+    
+    // Если упрощенный режим включен, принудительно оптимизируем
+    val effectiveOptimized = optimized || appSettings.simplifiedMode
+    
     // Кэшируем конфигурацию устройства для оптимизации под конкретный экран
     val config = LocalConfiguration.current
     val screenWidth = config.screenWidthDp
     
     // Оптимизированная версия использует меньше элементов и упрощенную отрисовку
     val effectiveItemCount = when {
-        optimized -> particleCount.coerceAtMost(8)
+        effectiveOptimized -> effectiveParticleCount.coerceAtMost(8)
         screenWidth < 600 -> itemCount.coerceAtMost(12) // Для маленьких экранов еще больше ограничиваем
-        else -> itemCount
+        else -> effectiveParticleCount
     }
     
     // Используем LocalDensity для учета плотности экрана при рендеринге
     val density = LocalDensity.current
     
     // Используем derivedStateOf для вычисления оптимальных размеров элементов
-    val (minSize, maxSize) = remember(optimized, screenWidth) {
-        if (optimized) {
+    val (minSize, maxSize) = remember(effectiveOptimized, screenWidth) {
+        if (effectiveOptimized) {
             Pair(8f, 16f) // Маленькие размеры для оптимизированного режима
         } else if (screenWidth < 600) {
             Pair(15f, 25f) // Средние размеры для телефонов
@@ -78,10 +94,10 @@ fun FloatingBackground(
     }
     
     // Используем remember с ключом optimized, чтобы пересоздать элементы при изменении режима оптимизации
-    val items = remember(optimized, effectiveItemCount, minSize, maxSize) {
+    val items = remember(effectiveOptimized, effectiveItemCount, minSize, maxSize) {
         List(effectiveItemCount) {
             val itemType = when {
-                optimized -> {
+                effectiveOptimized -> {
                     // В оптимизированном режиме используем только самые простые фигуры
                     when (it % 3) {
                         0 -> ItemType.CHECKBOX
@@ -98,7 +114,7 @@ fun FloatingBackground(
                 size = Random.nextFloat() * (maxSize - minSize) + minSize,
                 rotation = Random.nextFloat() * 360f,
                 type = itemType,
-                alpha = if (optimized) {
+                alpha = if (effectiveOptimized) {
                     // Уменьшаем прозрачность для снижения нагрузки на рендеринг
                     Random.nextFloat() * 0.15f + 0.05f
                 } else {
@@ -112,37 +128,37 @@ fun FloatingBackground(
     val infiniteTransition = rememberInfiniteTransition(label = "floating_items_transition")
     
     // Более продолжительная анимация требует меньше перерисовок
-    val effectiveAnimationDuration = if (optimized) {
-        animationDuration.coerceAtLeast(8000)
+    val finalAnimationDuration = if (effectiveOptimized) {
+        effectiveAnimationDuration.coerceAtLeast(8000)
     } else {
-        animationDuration
+        effectiveAnimationDuration
     }
     
     // Создаем кэшированные спецификации анимации для повторного использования
-    val primaryAnimSpec = remember(effectiveAnimationDuration, optimized) {
+    val primaryAnimSpec = remember(finalAnimationDuration, effectiveOptimized) {
         infiniteRepeatable<Float>(
             animation = tween(
-                durationMillis = effectiveAnimationDuration,
-                easing = if (optimized) linearOutSlowInEasing else linearEasing
+                durationMillis = finalAnimationDuration,
+                easing = if (effectiveOptimized) linearOutSlowInEasing else linearEasing
             ),
             repeatMode = simpleRepeatMode
         )
     }
     
-    val secondaryAnimSpec = remember(effectiveAnimationDuration, optimized) {
+    val secondaryAnimSpec = remember(finalAnimationDuration, effectiveOptimized) {
         infiniteRepeatable<Float>(
             animation = tween(
-                durationMillis = effectiveAnimationDuration + 2000,
-                easing = if (optimized) linearOutSlowInEasing else linearEasing
+                durationMillis = finalAnimationDuration + 2000,
+                easing = if (effectiveOptimized) linearOutSlowInEasing else linearEasing
             ),
             repeatMode = simpleRepeatMode
         )
     }
     
-    val rotationAnimSpec = remember(effectiveAnimationDuration, optimized) {
+    val rotationAnimSpec = remember(finalAnimationDuration, effectiveOptimized) {
         infiniteRepeatable<Float>(
             animation = tween(
-                durationMillis = if (optimized) effectiveAnimationDuration * 6 else effectiveAnimationDuration * 4,
+                durationMillis = if (effectiveOptimized) finalAnimationDuration * 6 else finalAnimationDuration * 4,
                 easing = linearEasing
             ),
             repeatMode = RepeatMode.Restart
@@ -154,7 +170,7 @@ fun FloatingBackground(
         // Смещения по X, разные для каждого индекса, но с общей спецификацией анимации
         val offsetX by infiniteTransition.animateFloat(
             initialValue = item.x,
-            targetValue = item.x + (Random.nextFloat() * 0.06f - 0.03f) * (if (optimized) 0.5f else 1f),
+            targetValue = item.x + (Random.nextFloat() * 0.06f - 0.03f) * (if (effectiveOptimized) 0.5f else 1f),
             animationSpec = if (index % 2 == 0) primaryAnimSpec else secondaryAnimSpec,
             label = "item_x_$index"
         )
@@ -162,7 +178,7 @@ fun FloatingBackground(
         // Смещения по Y, разные для каждого индекса, но с общей спецификацией анимации
         val offsetY by infiniteTransition.animateFloat(
             initialValue = item.y,
-            targetValue = item.y + (Random.nextFloat() * 0.06f - 0.03f) * (if (optimized) 0.5f else 1f),
+            targetValue = item.y + (Random.nextFloat() * 0.06f - 0.03f) * (if (effectiveOptimized) 0.5f else 1f),
             animationSpec = if (index % 2 == 0) secondaryAnimSpec else primaryAnimSpec,
             label = "item_y_$index"
         )
@@ -200,7 +216,7 @@ fun FloatingBackground(
                     val (offsetX, offsetY, rotation) = animation
                     
                     // В оптимизированном режиме используем более простые фигуры и меньше деталей
-                    if (optimized) {
+                    if (effectiveOptimized) {
                         drawOptimizedItem(offsetX, offsetY, rotation, item, backgroundBaseColor, canvasWidth, canvasHeight)
                     } else {
                         // Отрисовываем предмет с полными деталями

@@ -6,6 +6,7 @@ import androidx.work.WorkManager
 import com.example.taskapp.data.dao.TaskDao
 import com.example.taskapp.data.dao.TeacherDao
 import com.example.taskapp.data.database.AppDatabase
+import com.example.taskapp.data.database.MIGRATION_1_2
 import com.example.taskapp.data.repository.TaskRepository
 import com.example.taskapp.data.repository.TeacherRepository
 import com.example.taskapp.data.repository.ThemeRepository
@@ -27,7 +28,10 @@ object AppModule {
             context,
             AppDatabase::class.java,
             "taskapp_database"
-        ).build()
+        )
+        .addMigrations(MIGRATION_1_2)
+        .fallbackToDestructiveMigration()
+        .build()
     }
     
     @Provides
@@ -58,6 +62,12 @@ object AppModule {
     @Singleton
     fun provideWorkManager(@ApplicationContext context: Context): WorkManager {
         return WorkManager.getInstance(context)
+    }
+    
+    @Provides
+    @Singleton
+    fun provideContext(@ApplicationContext context: Context): Context {
+        return context
     }
     
     @Provides

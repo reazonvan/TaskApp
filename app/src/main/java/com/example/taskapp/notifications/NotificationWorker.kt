@@ -11,18 +11,24 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.example.taskapp.MainActivity
 import com.example.taskapp.R
+import com.example.taskapp.data.repository.AppSettings
+import com.example.taskapp.data.repository.SettingsRepository
 import com.example.taskapp.data.repository.TaskRepository
+import com.example.taskapp.util.DateFormatUtil
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
+import java.util.Calendar
 import java.util.concurrent.TimeUnit
 
 @HiltWorker
 class NotificationWorker @AssistedInject constructor(
     @Assisted private val context: Context,
     @Assisted workerParams: WorkerParameters,
-    private val taskRepository: TaskRepository
+    private val taskRepository: TaskRepository,
+    private val settingsRepository: SettingsRepository
 ) : CoroutineWorker(context, workerParams) {
 
     companion object {
@@ -39,13 +45,21 @@ class NotificationWorker @AssistedInject constructor(
 
             val task = taskRepository.getTaskById(taskId) ?: return@withContext Result.failure()
             
+            // Получаем настройки
+            val settings = settingsRepository.getSettings().first()
+            
+            // Проверяем режим "Не беспокоить"
+            if (isInDoNotDisturbTime(settings)) {
+                return@withContext Result.retry()
+            }
+            
             // Проверяем, что задача еще не выполнена и дедлайн не истек
             if (task.isCompleted || task.deadline == null || System.currentTimeMillis() > task.deadline) {
                 return@withContext Result.success()
             }
             
-            // Отправляем уведомление
-            sendNotification(task.id, task.title, task.description, task.deadline)
+            // Отправляем уведомление с учетом настроек
+            sendNotification(task.id, task.title, task.description, task.deadline, settings)
             
             // Отмечаем, что уведомление было отправлено
             taskRepository.markNotificationSent(task.id)
@@ -56,10 +70,35 @@ class NotificationWorker @AssistedInject constructor(
         }
     }
     
-    private fun sendNotification(taskId: Long, title: String, description: String, deadline: Long) {
+    // Проверяем, находимся ли мы в режиме "Не беспокоить"
+    private fun isInDoNotDisturbTime(settings: AppSettings): Boolean {
+        if (!settings.doNotDisturbEnabled) return false
+        
+        val calendar = Calendar.getInstance()
+        val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
+        
+        // Проверяем, попадает ли текущее время в диапазон "Не беспокоить"
+        return when {
+            // Если время начала меньше времени окончания (например, 22:00 - 7:00)
+            settings.doNotDisturbStart < settings.doNotDisturbEnd -> {
+                currentHour in settings.doNotDisturbStart until settings.doNotDisturbEnd
+            }
+            // Если время начала больше времени окончания (например, 22:00 - 7:00)
+            settings.doNotDisturbStart > settings.doNotDisturbEnd -> {
+                currentHour >= settings.doNotDisturbStart || currentHour < settings.doNotDisturbEnd
+            }
+            // Если время начала равно времени окончания, считаем, что режим отключен
+            else -> false
+        }
+    }
+    
+    private fun sendNotification(taskId: Long, title: String, description: String, deadline: Long, settings: AppSettings) {
         // Рассчитываем оставшееся время до дедлайна
         val timeUntilDeadline = deadline - System.currentTimeMillis()
         val hoursUntil = TimeUnit.MILLISECONDS.toHours(timeUntilDeadline)
+        
+        // Форматируем дату в соответствии с настройками
+        val formattedDate = DateFormatUtil.formatDate(deadline, settings)
         
         // Создаем текст уведомления в зависимости от оставшегося времени
         val notificationText = when {
@@ -69,6 +108,9 @@ class NotificationWorker @AssistedInject constructor(
             hoursUntil <= 48 -> "Срок сдачи завтра"
             else -> "До срока сдачи осталось ${hoursUntil/24} ${(hoursUntil/24).formatDays()}"
         }
+        
+        // Добавляем дату в зависимости от формата
+        val fullNotificationText = "$notificationText (Срок: $formattedDate)"
         
         // Intent для открытия приложения при клике на уведомление
         val intent = Intent(context, MainActivity::class.java).apply {
@@ -86,16 +128,25 @@ class NotificationWorker @AssistedInject constructor(
                     else 0
         )
         
-        // Строим уведомление
+        // Строим уведомление с учетом настроек
         val notificationBuilder = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_notification) // убедитесь, что иконка существует
+            .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(title)
-            .setContentText("$notificationText: $description")
-            .setStyle(NotificationCompat.BigTextStyle().bigText("$notificationText\n$description"))
+            .setContentText(fullNotificationText)
+            .setStyle(NotificationCompat.BigTextStyle().bigText("$fullNotificationText\n$description"))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
-            .setVibrate(longArrayOf(0, 250, 250, 250))
+        
+        // Применяем настройки вибрации
+        if (settings.notificationVibration) {
+            notificationBuilder.setVibrate(longArrayOf(0, 250, 250, 250))
+        }
+        
+        // Если звук уведомлений отключен, явно устанавливаем тихое уведомление
+        if (!settings.notificationSound) {
+            notificationBuilder.setSilent(true)
+        }
         
         // Показываем уведомление
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.taskapp.ui.screens.AboutScreen
 import com.example.taskapp.ui.screens.SplashScreen
 import com.example.taskapp.ui.screens.TaskScreen
 import com.example.taskapp.ui.screens.TeacherScreen
@@ -20,6 +21,7 @@ sealed class Screen(val route: String) {
         fun createRoute(teacherId: Long) = "tasks/$teacherId"
     }
     object Settings : Screen("settings")
+    object About : Screen("about")
 }
 
 @Composable
@@ -118,7 +120,30 @@ fun NavGraph(
             SettingsScreen(
                 onNavigateBack = { navController.popBackStack() },
                 isDarkTheme = isDarkTheme,
-                onToggleTheme = onToggleTheme
+                onToggleTheme = onToggleTheme,
+                onNavigateToAbout = { navController.navigate(Screen.About.route) }
+            )
+        }
+        
+        // Экран "О приложении"
+        composable(
+            route = Screen.About.route,
+            enterTransition = {
+                slideInHorizontally(
+                    initialOffsetX = { it / 2 },
+                    animationSpec = tween(200)
+                ) + fastFadeIn
+            },
+            exitTransition = {
+                slideOutHorizontally(
+                    targetOffsetX = { -it / 2 },
+                    animationSpec = tween(200)
+                ) + fastFadeOut
+            }
+        ) {
+            AboutScreen(
+                onNavigateBack = { navController.popBackStack() },
+                isDarkTheme = isDarkTheme
             )
         }
     }

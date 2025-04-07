@@ -1,5 +1,7 @@
 package com.example.taskapp.data.repository
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
@@ -151,6 +153,18 @@ class SettingsRepository @Inject constructor(
         }
     }
     
+    suspend fun updateDoNotDisturbStart(value: Int) {
+        context.dataStore.edit { preferences ->
+            preferences[PreferencesKeys.DO_NOT_DISTURB_START] = value
+        }
+    }
+    
+    suspend fun updateDoNotDisturbEnd(value: Int) {
+        context.dataStore.edit { preferences ->
+            preferences[PreferencesKeys.DO_NOT_DISTURB_END] = value
+        }
+    }
+    
     suspend fun updateUpdateInterval(value: Int) {
         context.dataStore.edit { preferences ->
             preferences[PreferencesKeys.UPDATE_INTERVAL] = value
@@ -161,5 +175,25 @@ class SettingsRepository @Inject constructor(
         context.dataStore.edit { preferences ->
             preferences[PreferencesKeys.SIMPLIFIED_MODE] = value
         }
+    }
+    
+    /**
+     * Проверяет, активен ли канал уведомлений
+     * Возвращает true, если канал существует и не отключен пользователем
+     */
+    fun isNotificationChannelEnabled(): Boolean {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val channel = notificationManager.getNotificationChannel("deadline_notifications")
+            
+            // Канал может не существовать если приложение только что установлено
+            if (channel == null) return false
+            
+            // Проверяем, не отключены ли уведомления для канала
+            return channel.importance != NotificationManager.IMPORTANCE_NONE
+        }
+        
+        // Для Android ниже O возвращаем true, так как индивидуальные каналы недоступны
+        return true
     }
 } 

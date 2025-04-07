@@ -31,6 +31,10 @@ data class Task(
     // Например: 60 (за час до дедлайна), 1440 (за день) и т.д.
     val notifyBeforeMinutes: Int = 60,
     
+    // Флаг, указывающий, использовать ли пользовательское время уведомления
+    // Если false, будет использовано время, установленное в глобальных настройках
+    val useCustomNotificationTime: Boolean = false,
+    
     // Флаг, указывающий, что уведомление уже было отправлено
     val notificationSent: Boolean = false
 ) 
