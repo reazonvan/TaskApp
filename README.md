@@ -18,7 +18,7 @@
 
 <div align="center">
   
-![TaskApp Preview](https://via.placeholder.com/800x400?text=TaskApp+Preview)
+![TaskApp Logo](https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Notebook%20with%20Decorative%20Cover.png)
 
 </div>
 
@@ -100,9 +100,9 @@ cd TaskApp
 
 | Контакт | Ссылка |
 |---------|--------|
-| 📧 Email | your-email@example.com |
-| 💬 Telegram | @your_username |
-| 🌐 Website | [your-website.com](https://your-website.com) |
+| 📧 Email | [reazonvan206@gmail.com](mailto:reazonvan206@gmail.com) |
+| 💬 Telegram | [@reazonvan](https://t.me/reazonvan) |
+| 🌐 GitHub | [ReazonVan](https://github.com/ReazonVan) |
 
 </div>
 
