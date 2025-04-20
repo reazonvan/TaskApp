@@ -6,9 +6,8 @@
 [![Kotlin](https://img.shields.io/badge/Kotlin-0095D5?style=for-the-badge&logo=kotlin&logoColor=white)](https://kotlinlang.org)
 [![Gradle](https://img.shields.io/badge/Gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white)](https://gradle.org)
 
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/your-username/TaskApp.svg?style=social)](https://github.com/your-username/TaskApp/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/your-username/TaskApp.svg?style=social)](https://github.com/your-username/TaskApp/network)
+[![GitHub stars](https://img.shields.io/github/stars/ReazonVan/TaskApp.svg?style=social)](https://github.com/ReazonVan/TaskApp/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/ReazonVan/TaskApp.svg?style=social)](https://github.com/ReazonVan/TaskApp/network)
 
 </div>
 
@@ -18,7 +17,9 @@
 
 <div align="center">
   
-![TaskApp Logo](https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Notebook%20with%20Decorative%20Cover.png)
+<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Calendar.png" alt="Calendar" width="100" height="100" />
+<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Check%20Mark%20Button.png" alt="Check Mark Button" width="100" height="100" />
+<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Clipboard.png" alt="Clipboard" width="100" height="100" />
 
 </div>
 
@@ -57,7 +58,7 @@ TaskApp - это мой личный проект, современное Androi
 
 1. Клонируйте репозиторий:
 ```bash
-git clone https://github.com/your-username/TaskApp.git
+git clone https://github.com/ReazonVan/TaskApp.git
 cd TaskApp
 ```
 
@@ -89,10 +90,6 @@ cd TaskApp
 # Запуск android тестов
 ./gradlew connectedAndroidTest
 ```
-
-## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Page%20with%20Curl.png" alt="Page with Curl" width="30" height="30" /> Лицензия
-
-Этот проект распространяется под лицензией MIT. Подробности смотрите в файле [LICENSE](LICENSE).
 
 ## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Envelope%20with%20Arrow.png" alt="Envelope with Arrow" width="30" height="30" /> Контакты
 
