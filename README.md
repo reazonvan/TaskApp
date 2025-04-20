@@ -1,18 +1,20 @@
+<div align="center">
+
 # 📚 TaskApp - Трекер учебных задач
 
-[![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://developer.android.com)
-[![Kotlin](https://img.shields.io/badge/Kotlin-0095D5?style=for-the-badge&logo=kotlin&logoColor=white)](https://kotlinlang.org)
-[![Gradle](https://img.shields.io/badge/Gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white)](https://gradle.org)
+<p align="center">
+  <a href="https://developer.android.com"><img src="https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white" alt="Android"></a>
+  <a href="https://kotlinlang.org"><img src="https://img.shields.io/badge/Kotlin-0095D5?style=for-the-badge&logo=kotlin&logoColor=white" alt="Kotlin"></a>
+  <a href="https://gradle.org"><img src="https://img.shields.io/badge/Gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white" alt="Gradle"></a>
+</p>
 
-<a href="https://github.com/ReazonVan/TaskApp/stargazers">
-  <img src="https://img.shields.io/github/stars/ReazonVan/TaskApp.svg?style=for-the-badge" alt="Stars">
-</a>
-<a href="https://github.com/ReazonVan/TaskApp/network">
-  <img src="https://img.shields.io/github/forks/ReazonVan/TaskApp.svg?style=for-the-badge" alt="Forks">
-</a>
-<a href="https://github.com/ReazonVan/TaskApp/issues">
-  <img src="https://img.shields.io/github/issues/ReazonVan/TaskApp.svg?style=for-the-badge" alt="Issues">
-</a>
+<p align="center">
+  <a href="https://github.com/ReazonVan/TaskApp/stargazers"><img src="https://img.shields.io/github/stars/ReazonVan/TaskApp.svg?style=for-the-badge&color=FFAC33" alt="Stars"></a>
+  <a href="https://github.com/ReazonVan/TaskApp/network"><img src="https://img.shields.io/github/forks/ReazonVan/TaskApp.svg?style=for-the-badge&color=00C853" alt="Forks"></a>
+  <a href="https://github.com/ReazonVan/TaskApp/issues"><img src="https://img.shields.io/github/issues/ReazonVan/TaskApp.svg?style=for-the-badge&color=FF5252" alt="Issues"></a>
+</p>
+
+</div>
 
 ---
 
@@ -152,24 +154,40 @@ TaskApp - это специализированное приложение дл�
 
 <div align="center">
 
-<details>
-<summary><b>⬇️ Инструкция по установке</b></summary>
-<br>
-
-```bash
-# 1️⃣ Клонируйте репозиторий
-git clone https://github.com/ReazonVan/TaskApp.git
-cd TaskApp
-
-# 2️⃣ Откройте проект в Android Studio (2022.1.1 или новее)
-
-# 3️⃣ Синхронизируйте зависимости
-./gradlew build
-
-# 4️⃣ Запустите приложение на эмуляторе или устройстве
-```
-
-</details>
+<table>
+  <tr>
+    <th colspan="2" align="center">🚀 Установка приложения</th>
+  </tr>
+  <tr>
+    <td align="center" width="70"><b>1️⃣</b></td>
+    <td>
+      <b>Клонируйте репозиторий</b><br>
+      <code>git clone https://github.com/ReazonVan/TaskApp.git</code><br>
+      <code>cd TaskApp</code>
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><b>2️⃣</b></td>
+    <td>
+      <b>Откройте проект в Android Studio</b><br>
+      Используйте версию 2022.1.1 или новее
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><b>3️⃣</b></td>
+    <td>
+      <b>Синхронизируйте зависимости</b><br>
+      <code>./gradlew build</code>
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><b>4️⃣</b></td>
+    <td>
+      <b>Запустите приложение</b><br>
+      Выберите эмулятор или подключенное устройство
+    </td>
+  </tr>
+</table>
 
 </div>
 
@@ -180,28 +198,25 @@ cd TaskApp
 <div align="center">
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#5d8aa8', 'edgeLabelBackground':'#fff', 'tertiaryColor': '#fff'}}}%%
-graph TD
-    A[TaskApp] --> B[app]
-    B --> C[src]
-    C --> D[main]
-    C --> E[test]
-    C --> F[androidTest]
-    D --> G[java]
-    D --> H[res]
-    D --> I[AndroidManifest.xml]
+flowchart TD
+    A["📱 TaskApp"] --> B["📦 app"]
+    B --> C["📂 src"]
+    C --> D["📂 main"]
+    C --> E["📂 test"]
+    C --> F["📂 androidTest"]
+    D --> G["📂 java"]
+    D --> H["📂 res"]
+    D --> I["📄 AndroidManifest.xml"]
     
-    subgraph "Образовательные модули"
-    G --> J[студенческие задачи]
-    G --> K[дедлайны]
-    G --> L[напоминания]
-    end
+    G --> J["📚 Учебные задачи"]
+    G --> K["⏰ Дедлайны"]
+    G --> L["🔔 Напоминания"]
     
-    style A fill:#e6f7ff,stroke:#5d8aa8
-    style B fill:#e6f7ff,stroke:#5d8aa8
-    style J fill:#ffeecc,stroke:#ff9900
-    style K fill:#ffeecc,stroke:#ff9900
-    style L fill:#ffeecc,stroke:#ff9900
+    classDef default fill:#f5f5f5,stroke:#5d8aa8,stroke-width:2px,color:#333,rx:5px
+    classDef special fill:#ffeecc,stroke:#ff9900,stroke-width:2px,color:#333,rx:5px
+    
+    class A,B default
+    class J,K,L special
 ```
 
 </div>
