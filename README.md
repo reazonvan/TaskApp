@@ -1,46 +1,83 @@
-# 📱 TaskApp - Ваш персональный менеджер задач
+# 📚 TaskApp - Трекер учебных задач
 
 [![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://developer.android.com)
 [![Kotlin](https://img.shields.io/badge/Kotlin-0095D5?style=for-the-badge&logo=kotlin&logoColor=white)](https://kotlinlang.org)
 [![Gradle](https://img.shields.io/badge/Gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white)](https://gradle.org)
 
-[![GitHub stars](https://img.shields.io/github/stars/ReazonVan/TaskApp.svg?style=social)](https://github.com/ReazonVan/TaskApp/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/ReazonVan/TaskApp.svg?style=social)](https://github.com/ReazonVan/TaskApp/network)
-[![GitHub issues](https://img.shields.io/github/issues/ReazonVan/TaskApp.svg?style=social)](https://github.com/ReazonVan/TaskApp/issues)
+<a href="https://github.com/ReazonVan/TaskApp/stargazers">
+  <img src="https://img.shields.io/github/stars/ReazonVan/TaskApp.svg?style=for-the-badge" alt="Stars">
+</a>
+<a href="https://github.com/ReazonVan/TaskApp/network">
+  <img src="https://img.shields.io/github/forks/ReazonVan/TaskApp.svg?style=for-the-badge" alt="Forks">
+</a>
+<a href="https://github.com/ReazonVan/TaskApp/issues">
+  <img src="https://img.shields.io/github/issues/ReazonVan/TaskApp.svg?style=for-the-badge" alt="Issues">
+</a>
 
 ---
+
+## 🎓 Никаких пропущенных дедлайнов. Никаких академических задолженностей.
 
 ## 📋 О проекте
 
 <div align="center">
 
-<img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNmQ5MzBiYTNiM2EyYjM3ZDM4ZmM5ZGE5MzFhYzJiZDY4ZmFjZDU5YiZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/3o7abrH8o4HMgEAV9e/giphy.gif" width="300" alt="Task Management">
+<img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdm95ZjE2N3NsdWFiOTVnNWU5a2puaG92cnpxc2U0YjIydG5idnh5ciZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/l46Cy1rHbQ92uuLXa/giphy.gif" width="350" alt="Student Studying">
+
+<h3><i>Успевай всё вовремя!</i></h3>
 
 </div>
 
-TaskApp - это современное Android-приложение для эффективного управления задачами, разработанное с использованием последних технологий и лучших практик разработки. Приложение помогает пользователям организовывать свои задачи, отслеживать прогресс и повышать продуктивность.
+<div align="center">
+
+TaskApp - это специализированное приложение для студентов, которое помогает эффективно отслеживать учебные задания, дедлайны и академические долги. Разработанное с учетом реальных потребностей учащихся, оно помогает организовать учебный процесс и никогда не пропускать важные даты сдачи работ.
+
+</div>
 
 ### ✨ Основные возможности
 
 <div align="center">
 
-| 🚀 Функция | 📝 Описание |
-|------------|-------------|
-| 📝 Создание задач | Быстрое добавление и редактирование задач с поддержкой приоритетов |
-| 🏷️ Категоризация | Гибкая система категорий и тегов для удобной организации |
-| ⏰ Напоминания | Умные уведомления и напоминания о предстоящих задачах |
-| 📊 Статистика | Подробная аналитика продуктивности с визуализацией данных |
-| 🌙 Темная тема | Комфортная работа в любое время суток с автопереключением |
-| 🔄 Синхронизация | Бесшовная синхронизация между всеми устройствами |
-| 🔍 Поиск | Быстрый поиск по задачам с фильтрацией |
-| 📅 Календарь | Интеграция с календарем для планирования |
-| 🔒 Безопасность | Защита данных и конфиденциальность |
+<table>
+  <tr>
+    <th align="center">📝 Функция</th>
+    <th align="center">📚 Описание</th>
+  </tr>
+  <tr>
+    <td align="center"><b>⏰ Отслеживание дедлайнов</b></td>
+    <td>Визуальный календарь с подсветкой приближающихся дат сдачи работ</td>
+  </tr>
+  <tr>
+    <td align="center"><b>📋 Учебные задания</b></td>
+    <td>Организация по предметам, курсам и семестрам</td>
+  </tr>
+  <tr>
+    <td align="center"><b>🔔 Умные напоминания</b></td>
+    <td>Настраиваемые уведомления о приближающихся дедлайнах</td>
+  </tr>
+  <tr>
+    <td align="center"><b>🎯 Приоритеты</b></td>
+    <td>Выделение наиболее важных заданий и срочных работ</td>
+  </tr>
+  <tr>
+    <td align="center"><b>📊 Прогресс обучения</b></td>
+    <td>Отслеживание успеваемости и выполненных работ</td>
+  </tr>
+  <tr>
+    <td align="center"><b>📱 Быстрый доступ</b></td>
+    <td>Виджеты с ближайшими дедлайнами на главном экране</td>
+  </tr>
+</table>
 
 </div>
 
 ## 🚀 Технологический стек
 
 <div align="center">
+
+<details open>
+<summary><b>⚡ Используемые технологии</b></summary>
+<br>
 
 | 💻 Технология | 📝 Описание |
 |---------------|-------------|
@@ -54,18 +91,29 @@ TaskApp - это современное Android-приложение для эф
 | Dagger Hilt | Внедрение зависимостей |
 | WorkManager | Фоновые задачи и синхронизация |
 
+</details>
+
 </div>
 
-## 🎯 Целевая аудитория
+## 🎯 Для студентов
 
 <div align="center">
 
-| 👥 Группа | 📝 Описание |
+<kbd>
+<img src="https://img.shields.io/badge/Экзамены-FF5555?style=for-the-badge" alt="Экзамены">
+<img src="https://img.shields.io/badge/Лабораторные-44CC11?style=for-the-badge" alt="Лабораторные">
+<img src="https://img.shields.io/badge/Курсовые-3366FF?style=for-the-badge" alt="Курсовые">
+<img src="https://img.shields.io/badge/Домашние_задания-FF9900?style=for-the-badge" alt="Домашние задания">
+</kbd>
+
+<br><br>
+
+| 👥 Кому пригодится | 📝 Преимущества |
 |-----------|-------------|
-| 👨‍💼 Профессионалы | Эффективная организация рабочих задач |
-| 👩‍🎓 Студенты | Управление учебными задачами и дедлайнами |
-| 👥 Команды | Совместная работа над проектами |
-| 📱 Пользователи | Ценящие простоту и функциональность |
+| 👨‍🎓 Студенты университетов | Организация сложного учебного графика по семестрам |
+| 👩‍🎓 Учащиеся колледжей | Отслеживание регулярных заданий и тестов |
+| 👨‍💻 Студенты онлайн-курсов | Контроль дедлайнов из разных образовательных платформ |
+| 👩‍🏫 Аспиранты | Управление исследовательской работой и публикациями |
 
 </div>
 
@@ -75,17 +123,38 @@ TaskApp - это современное Android-приложение для эф
 
 <div align="center">
 
-| 📱 Требование | ⚙️ Минимум | 🚀 Рекомендуется |
-|---------------|------------|------------------|
-| Android | 6.0 (API 23) | 10.0 (API 29) |
-| Память | 50 MB | 100 MB |
-| Сервисы | Google Play | Google Play |
+<table>
+  <tr>
+    <th align="center">📱 Требование</th>
+    <th align="center">⚙️ Минимум</th>
+    <th align="center">🚀 Рекомендуется</th>
+  </tr>
+  <tr>
+    <td align="center">Android</td>
+    <td align="center">6.0 (API 23)</td>
+    <td align="center">10.0 (API 29)</td>
+  </tr>
+  <tr>
+    <td align="center">Память</td>
+    <td align="center">50 MB</td>
+    <td align="center">100 MB</td>
+  </tr>
+  <tr>
+    <td align="center">Сервисы</td>
+    <td align="center">Google Play</td>
+    <td align="center">Google Play</td>
+  </tr>
+</table>
 
 </div>
 
 ### Пошаговая установка
 
 <div align="center">
+
+<details>
+<summary><b>⬇️ Инструкция по установке</b></summary>
+<br>
 
 ```bash
 # 1️⃣ Клонируйте репозиторий
@@ -100,6 +169,8 @@ cd TaskApp
 # 4️⃣ Запустите приложение на эмуляторе или устройстве
 ```
 
+</details>
+
 </div>
 
 ## 🔧 Разработка
@@ -109,6 +180,7 @@ cd TaskApp
 <div align="center">
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#5d8aa8', 'edgeLabelBackground':'#fff', 'tertiaryColor': '#fff'}}}%%
 graph TD
     A[TaskApp] --> B[app]
     B --> C[src]
@@ -118,6 +190,18 @@ graph TD
     D --> G[java]
     D --> H[res]
     D --> I[AndroidManifest.xml]
+    
+    subgraph "Образовательные модули"
+    G --> J[студенческие задачи]
+    G --> K[дедлайны]
+    G --> L[напоминания]
+    end
+    
+    style A fill:#e6f7ff,stroke:#5d8aa8
+    style B fill:#e6f7ff,stroke:#5d8aa8
+    style J fill:#ffeecc,stroke:#ff9900
+    style K fill:#ffeecc,stroke:#ff9900
+    style L fill:#ffeecc,stroke:#ff9900
 ```
 
 </div>
@@ -126,28 +210,28 @@ graph TD
 
 <div align="center">
 
-| 🛠️ Действие | 💻 Команда |
-|-------------|------------|
-| Debug сборка | `./gradlew assembleDebug` |
-| Release сборка | `./gradlew assembleRelease` |
-| Unit тесты | `./gradlew test` |
-| Android тесты | `./gradlew connectedAndroidTest` |
-
-</div>
-
-## 🔜 Планы развития
-
-<div align="center">
-
-| 🚀 Функция | 📊 Статус |
-|------------|-----------|
-| Google Calendar | В разработке |
-| Виджеты | Планируется |
-| Экспорт/импорт | Планируется |
-| Голосовой ввод | В планах |
-| Умные списки | В планах |
-| Статистика | В планах |
-| Совместное использование | В планах |
+<table>
+  <tr>
+    <th align="center">🛠️ Действие</th>
+    <th align="center">💻 Команда</th>
+  </tr>
+  <tr>
+    <td align="center">Debug сборка</td>
+    <td><code>./gradlew assembleDebug</code></td>
+  </tr>
+  <tr>
+    <td align="center">Release сборка</td>
+    <td><code>./gradlew assembleRelease</code></td>
+  </tr>
+  <tr>
+    <td align="center">Unit тесты</td>
+    <td><code>./gradlew test</code></td>
+  </tr>
+  <tr>
+    <td align="center">Android тесты</td>
+    <td><code>./gradlew connectedAndroidTest</code></td>
+  </tr>
+</table>
 
 </div>
 
@@ -155,11 +239,24 @@ graph TD
 
 <div align="center">
 
-| 📱 Контакт | 🔗 Ссылка |
-|------------|-----------|
-| 📧 Email | [reazonvan206@gmail.com](mailto:reazonvan206@gmail.com) |
-| 💬 Telegram | [@reazonvan](https://t.me/reazonvan) |
-| 🌐 GitHub | [ReazonVan](https://github.com/ReazonVan) |
+<table>
+  <tr>
+    <th align="center">📱 Контакт</th>
+    <th align="center">🔗 Ссылка</th>
+  </tr>
+  <tr>
+    <td align="center">📧 Email</td>
+    <td align="center"><a href="mailto:reazonvan206@gmail.com">reazonvan206@gmail.com</a></td>
+  </tr>
+  <tr>
+    <td align="center">💬 Telegram</td>
+    <td align="center"><a href="https://t.me/reazonvan">@reazonvan</a></td>
+  </tr>
+  <tr>
+    <td align="center">🌐 GitHub</td>
+    <td align="center"><a href="https://github.com/ReazonVan">ReazonVan</a></td>
+  </tr>
+</table>
 
 </div>
 
@@ -167,12 +264,17 @@ graph TD
 
 <div align="center">
 
-| ⭐ Действие | 📝 Описание |
-|------------|-------------|
-| Звезда | Поставьте звезду на GitHub |
-| Issues | Сообщайте об ошибках |
-| Идеи | Предлагайте улучшения |
-| Шеринг | Делитесь проектом |
+<kbd>
+<a href="https://github.com/ReazonVan/TaskApp">
+  <img src="https://img.shields.io/badge/⭐_Поставьте_звезду-FFAC33?style=for-the-badge&logo=github&logoColor=white" alt="Star">
+</a>
+<a href="https://github.com/ReazonVan/TaskApp/issues">
+  <img src="https://img.shields.io/badge/🐛_Сообщить_об_ошибке-FF5252?style=for-the-badge&logo=github&logoColor=white" alt="Bug">
+</a>
+<a href="https://github.com/ReazonVan/TaskApp/issues">
+  <img src="https://img.shields.io/badge/💡_Предложить_идею-00C853?style=for-the-badge&logo=github&logoColor=white" alt="Idea">
+</a>
+</kbd>
 
 </div>
 
@@ -180,6 +282,8 @@ graph TD
 
 <div align="center">
   
-# ⭐️ TaskApp - Управляйте задачами эффективно! ⭐️
+<h1>📚 TaskApp - Учись без стресса! 📚</h1>
+
+<img src="https://img.shields.io/badge/Создано_студентами_для_студентов-5D8AA8?style=for-the-badge" alt="Создано студентами для студентов">
 
 </div> 
