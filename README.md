@@ -16,7 +16,10 @@
 
 </div>
 
----
+<!-- ⚔️ ДЕКОРАТИВНЫЙ РАЗДЕЛИТЕЛЬ ⚔️ -->
+<div align="center">
+  <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png" alt="Разделитель" style="width: 100%;">
+</div>
 
 ## 🎓 Никаких пропущенных дедлайнов. Никаких академических задолженностей.
 
@@ -36,11 +39,16 @@ TaskApp - это специализированное приложение дл�
 
 </div>
 
+<!-- 🎯 ДЕКОРАТИВНЫЙ РАЗДЕЛИТЕЛЬ 🎯 -->
+<div align="center">
+  <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/fire.png" alt="Разделитель" style="width: 100%;">
+</div>
+
 ### ✨ Основные возможности
 
 <div align="center">
 
-<table>
+<table style="min-width: 300px; width: auto; max-width: 100%; overflow-x: auto; display: block;">
   <tr>
     <th align="center">📝 Функция</th>
     <th align="center">📚 Описание</th>
@@ -73,6 +81,11 @@ TaskApp - это специализированное приложение дл�
 
 </div>
 
+<!-- 🔥 ДЕКОРАТИВНЫЙ РАЗДЕЛИТЕЛЬ 🔥 -->
+<div align="center">
+  <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/solar.png" alt="Разделитель" style="width: 100%;">
+</div>
+
 ## 🚀 Технологический стек
 
 <div align="center">
@@ -81,20 +94,29 @@ TaskApp - это специализированное приложение дл�
 <summary><b>⚡ Используемые технологии</b></summary>
 <br>
 
+<div style="background-color: #2b2b2b; color: #f8f8f2; padding: 15px; border-radius: 10px;">
+
 | 💻 Технология | 📝 Описание |
 |---------------|-------------|
-| Kotlin | Современный язык программирования с null-safety и корутинами |
-| Gradle | Система сборки с поддержкой Kotlin DSL |
-| MVVM | Архитектурный паттерн для чистого разделения логики |
-| Room | Удобная и производительная база данных от Google |
-| Material Design 3 | Современный адаптивный дизайн с поддержкой тем |
-| Jetpack | Navigation, ViewModel, LiveData, DataBinding |
-| Coroutines | Асинхронное программирование и многопоточность |
-| Dagger Hilt | Внедрение зависимостей |
-| WorkManager | Фоновые задачи и синхронизация |
+| <span style="color: #ff79c6;">Kotlin</span> | Современный язык программирования с null-safety и корутинами |
+| <span style="color: #8be9fd;">Gradle</span> | Система сборки с поддержкой Kotlin DSL |
+| <span style="color: #bd93f9;">MVVM</span> | Архитектурный паттерн для чистого разделения логики |
+| <span style="color: #50fa7b;">Room</span> | Удобная и производительная база данных от Google |
+| <span style="color: #ffb86c;">Material Design 3</span> | Современный адаптивный дизайн с поддержкой тем |
+| <span style="color: #ff5555;">Jetpack</span> | Navigation, ViewModel, LiveData, DataBinding |
+| <span style="color: #f1fa8c;">Coroutines</span> | Асинхронное программирование и многопоточность |
+| <span style="color: #8be9fd;">Dagger Hilt</span> | Внедрение зависимостей |
+| <span style="color: #ff79c6;">WorkManager</span> | Фоновые задачи и синхронизация |
+
+</div>
 
 </details>
 
+</div>
+
+<!-- 🎮 ДЕКОРАТИВНЫЙ РАЗДЕЛИТЕЛЬ 🎮 -->
+<div align="center">
+  <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/aqua.png" alt="Разделитель" style="width: 100%;">
 </div>
 
 ## 🎯 Для студентов
@@ -110,13 +132,34 @@ TaskApp - это специализированное приложение дл�
 
 <br><br>
 
-| 👥 Кому пригодится | 📝 Преимущества |
-|-----------|-------------|
-| 👨‍🎓 Студенты университетов | Организация сложного учебного графика по семестрам |
-| 👩‍🎓 Учащиеся колледжей | Отслеживание регулярных заданий и тестов |
-| 👨‍💻 Студенты онлайн-курсов | Контроль дедлайнов из разных образовательных платформ |
-| 👩‍🏫 Аспиранты | Управление исследовательской работой и публикациями |
+<table style="min-width: 300px; width: auto; max-width: 100%; overflow-x: auto; display: block;">
+  <tr>
+    <th align="center">👥 Кому пригодится</th>
+    <th align="center">📝 Преимущества</th>
+  </tr>
+  <tr>
+    <td align="center">👨‍🎓 Студенты университетов</td>
+    <td>Организация сложного учебного графика по семестрам</td>
+  </tr>
+  <tr>
+    <td align="center">👩‍🎓 Учащиеся колледжей</td>
+    <td>Отслеживание регулярных заданий и тестов</td>
+  </tr>
+  <tr>
+    <td align="center">👨‍💻 Студенты онлайн-курсов</td>
+    <td>Контроль дедлайнов из разных образовательных платформ</td>
+  </tr>
+  <tr>
+    <td align="center">👩‍🏫 Аспиранты</td>
+    <td>Управление исследовательской работой и публикациями</td>
+  </tr>
+</table>
 
+</div>
+
+<!-- 💎 ДЕКОРАТИВНЫЙ РАЗДЕЛИТЕЛЬ 💎 -->
+<div align="center">
+  <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png" alt="Разделитель" style="width: 100%;">
 </div>
 
 ## ⚙️ Установка
@@ -125,7 +168,7 @@ TaskApp - это специализированное приложение дл�
 
 <div align="center">
 
-<table>
+<table style="min-width: 300px; width: auto; max-width: 100%; overflow-x: auto; display: block;">
   <tr>
     <th align="center">📱 Требование</th>
     <th align="center">⚙️ Минимум</th>
@@ -154,7 +197,7 @@ TaskApp - это специализированное приложение дл�
 
 <div align="center">
 
-<table>
+<table style="min-width: 300px; width: auto; max-width: 100%; overflow-x: auto; display: block;">
   <tr>
     <th colspan="2" align="center">🚀 Установка приложения</th>
   </tr>
@@ -191,6 +234,11 @@ TaskApp - это специализированное приложение дл�
 
 </div>
 
+<!-- 🛡️ ДЕКОРАТИВНЫЙ РАЗДЕЛИТЕЛЬ 🛡️ -->
+<div align="center">
+  <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/fire.png" alt="Разделитель" style="width: 100%;">
+</div>
+
 ## 🔧 Разработка
 
 ### Структура проекта
@@ -212,8 +260,8 @@ flowchart TD
     G --> K["⏰ Дедлайны"]
     G --> L["🔔 Напоминания"]
     
-    classDef default fill:#f5f5f5,stroke:#5d8aa8,stroke-width:2px,color:#333,rx:5px
-    classDef special fill:#ffeecc,stroke:#ff9900,stroke-width:2px,color:#333,rx:5px
+    classDef default fill:#2b2b2b,stroke:#50fa7b,stroke-width:2px,color:#f8f8f2,rx:5px
+    classDef special fill:#44475a,stroke:#ff79c6,stroke-width:2px,color:#f8f8f2,rx:5px
     
     class A,B default
     class J,K,L special
@@ -225,7 +273,7 @@ flowchart TD
 
 <div align="center">
 
-<table>
+<table style="min-width: 300px; width: auto; max-width: 100%; overflow-x: auto; display: block;">
   <tr>
     <th align="center">🛠️ Действие</th>
     <th align="center">💻 Команда</th>
@@ -250,11 +298,16 @@ flowchart TD
 
 </div>
 
+<!-- 🏆 ДЕКОРАТИВНЫЙ РАЗДЕЛИТЕЛЬ 🏆 -->
+<div align="center">
+  <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/solar.png" alt="Разделитель" style="width: 100%;">
+</div>
+
 ## 📧 Контакты
 
 <div align="center">
 
-<table>
+<table style="min-width: 300px; width: auto; max-width: 100%; overflow-x: auto; display: block;">
   <tr>
     <th align="center">📱 Контакт</th>
     <th align="center">🔗 Ссылка</th>
@@ -273,6 +326,11 @@ flowchart TD
   </tr>
 </table>
 
+</div>
+
+<!-- 🌟 ДЕКОРАТИВНЫЙ РАЗДЕЛИТЕЛЬ 🌟 -->
+<div align="center">
+  <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png" alt="Разделитель" style="width: 100%;">
 </div>
 
 ## 🤝 Поддержка проекта
@@ -301,4 +359,4 @@ flowchart TD
 
 <img src="https://img.shields.io/badge/Создано_студентами_для_студентов-5D8AA8?style=for-the-badge" alt="Создано студентами для студентов">
 
-</div> 
+</div>
