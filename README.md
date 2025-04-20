@@ -1,48 +1,59 @@
-# 🚀 TaskApp - Ваш персональный менеджер задач
+# <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Raising%20Hands.png" alt="Raising Hands" width="40" height="40" /> TaskApp - Ваш персональный менеджер задач
 
 <div align="center">
-  
-![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)
-![Kotlin](https://img.shields.io/badge/Kotlin-0095D5?style=for-the-badge&logo=kotlin&logoColor=white)
-![Gradle](https://img.shields.io/badge/Gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white)
+
+[![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://developer.android.com)
+[![Kotlin](https://img.shields.io/badge/Kotlin-0095D5?style=for-the-badge&logo=kotlin&logoColor=white)](https://kotlinlang.org)
+[![Gradle](https://img.shields.io/badge/Gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white)](https://gradle.org)
 
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/your-username/TaskApp.svg?style=social)](https://github.com/your-username/TaskApp/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/your-username/TaskApp.svg?style=social)](https://github.com/your-username/TaskApp/network)
 
 </div>
 
-## 📋 О проекте
+---
 
-TaskApp - это современное Android-приложение для эффективного управления задачами. Приложение разработано с использованием последних технологий и следует лучшим практикам разработки.
+## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Scroll.png" alt="Scroll" width="30" height="30" /> О проекте
 
-### ✨ Основные возможности
+<div align="center">
+  
+![TaskApp Preview](https://via.placeholder.com/800x400?text=TaskApp+Preview)
 
-- 📝 Создание и редактирование задач
-- 🏷️ Категоризация и тегирование
-- ⏰ Умные напоминания
-- 📊 Статистика продуктивности
-- 🌙 Темная тема
-- 🔄 Синхронизация между устройствами
+</div>
 
-## 🛠 Технологический стек
+TaskApp - это мой личный проект, современное Android-приложение для эффективного управления задачами. Я разработал его с использованием последних технологий и лучших практик разработки.
 
-- **Язык программирования:** Kotlin
-- **Сборка:** Gradle
-- **Минимальная версия Android:** API 21 (Android 5.0)
-- **Архитектура:** MVVM
-- **База данных:** Room
-- **UI:** Material Design 3
+### <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Sparkles.png" alt="Sparkles" width="30" height="30" /> Основные возможности
 
-## 🚀 Быстрый старт
+<div align="center">
 
-### Предварительные требования
+| Функция | Описание |
+|---------|----------|
+| 📝 Создание задач | Быстрое добавление и редактирование задач |
+| 🏷️ Категоризация | Гибкая система категорий и тегов |
+| ⏰ Напоминания | Умные уведомления и напоминания |
+| 📊 Статистика | Подробная аналитика продуктивности |
+| 🌙 Темная тема | Комфортная работа в любое время суток |
+| 🔄 Синхронизация | Синхронизация между устройствами |
 
-- Android Studio Arctic Fox или новее
-- JDK 11+
-- Android SDK API 31+
-- Gradle 7.0+
+</div>
 
-### Установка
+## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Rocket.png" alt="Rocket" width="30" height="30" /> Технологический стек
+
+<div align="center">
+
+| Технология | Описание |
+|------------|----------|
+| Kotlin | Основной язык программирования |
+| Gradle | Система сборки |
+| MVVM | Архитектура приложения |
+| Room | Локальная база данных |
+| Material Design 3 | Современный UI/UX |
+
+</div>
+
+## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Gear.png" alt="Gear" width="30" height="30" /> Установка
 
 1. Клонируйте репозиторий:
 ```bash
@@ -59,27 +70,9 @@ cd TaskApp
 
 4. Запустите приложение на эмуляторе или устройстве
 
-## 📁 Структура проекта
-
-```
-TaskApp/
-├── app/                    # Основной модуль приложения
-│   ├── src/
-│   │   ├── main/         # Основной код
-│   │   │   ├── java/    # Исходный код
-│   │   │   └── res/     # Ресурсы
-│   │   ├── test/        # Unit тесты
-│   │   └── androidTest/ # Инструментальные тесты
-│   └── build.gradle.kts  # Конфигурация модуля
-├── gradle/               # Gradle wrapper
-├── build.gradle.kts      # Основная конфигурация
-└── settings.gradle.kts   # Настройки проекта
-```
-
-## 🛠 Разработка
+## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Hammer%20and%20Wrench.png" alt="Hammer and Wrench" width="30" height="30" /> Разработка
 
 ### Сборка
-
 ```bash
 # Сборка debug версии
 ./gradlew assembleDebug
@@ -89,7 +82,6 @@ TaskApp/
 ```
 
 ### Тестирование
-
 ```bash
 # Запуск unit тестов
 ./gradlew test
@@ -98,19 +90,21 @@ TaskApp/
 ./gradlew connectedAndroidTest
 ```
 
-## 🤝 Вклад в проект
-
-Мы приветствуем вклад в проект! Пожалуйста, ознакомьтесь с [CONTRIBUTING.md](CONTRIBUTING.md) для получения подробной информации о процессе.
-
-## 📄 Лицензия
+## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Page%20with%20Curl.png" alt="Page with Curl" width="30" height="30" /> Лицензия
 
 Этот проект распространяется под лицензией MIT. Подробности смотрите в файле [LICENSE](LICENSE).
 
-## 📧 Контакты
+## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Envelope%20with%20Arrow.png" alt="Envelope with Arrow" width="30" height="30" /> Контакты
 
-- 📧 Email: your-email@example.com
-- 💬 Telegram: @your_username
-- 🌐 Website: https://your-website.com
+<div align="center">
+
+| Контакт | Ссылка |
+|---------|--------|
+| 📧 Email | your-email@example.com |
+| 💬 Telegram | @your_username |
+| 🌐 Website | [your-website.com](https://your-website.com) |
+
+</div>
 
 ---
 
