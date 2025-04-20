@@ -1,4 +1,4 @@
-# <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Raising%20Hands.png" alt="Raising Hands" width="40" height="40" /> TaskApp - Ваш персональный менеджер задач
+# 📱 TaskApp - Ваш персональный менеджер задач
 
 <div align="center">
 
@@ -13,19 +13,17 @@
 
 ---
 
-## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Scroll.png" alt="Scroll" width="30" height="30" /> О проекте
+## 📋 О проекте
 
 <div align="center">
   
-<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Calendar.png" alt="Calendar" width="100" height="100" />
-<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Check%20Mark%20Button.png" alt="Check Mark Button" width="100" height="100" />
-<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Clipboard.png" alt="Clipboard" width="100" height="100" />
+📅 ✅ 📋
 
 </div>
 
 TaskApp - это мой личный проект, современное Android-приложение для эффективного управления задачами. Я разработал его с использованием последних технологий и лучших практик разработки.
 
-### <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Sparkles.png" alt="Sparkles" width="30" height="30" /> Основные возможности
+### ✨ Основные возможности
 
 <div align="center">
 
@@ -40,7 +38,7 @@ TaskApp - это мой личный проект, современное Androi
 
 </div>
 
-## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Rocket.png" alt="Rocket" width="30" height="30" /> Технологический стек
+## 🚀 Технологический стек
 
 <div align="center">
 
@@ -54,7 +52,7 @@ TaskApp - это мой личный проект, современное Androi
 
 </div>
 
-## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Gear.png" alt="Gear" width="30" height="30" /> Установка
+## ⚙️ Установка
 
 1. Клонируйте репозиторий:
 ```bash
@@ -71,7 +69,7 @@ cd TaskApp
 
 4. Запустите приложение на эмуляторе или устройстве
 
-## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Hammer%20and%20Wrench.png" alt="Hammer and Wrench" width="30" height="30" /> Разработка
+## 🔧 Разработка
 
 ### Сборка
 ```bash
@@ -91,7 +89,7 @@ cd TaskApp
 ./gradlew connectedAndroidTest
 ```
 
-## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Envelope%20with%20Arrow.png" alt="Envelope with Arrow" width="30" height="30" /> Контакты
+## 📧 Контакты
 
 <div align="center">
 
