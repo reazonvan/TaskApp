@@ -1,39 +1,47 @@
 <div align="center">
 
-# 📚 TaskApp - Трекер учебных задач
+# 🎮 GameTrade - Торговая площадка игровых предметов
 
 <p align="center">
-  <a href="https://developer.android.com"><img src="https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white" alt="Android"></a>
-  <a href="https://kotlinlang.org"><img src="https://img.shields.io/badge/Kotlin-0095D5?style=for-the-badge&logo=kotlin&logoColor=white" alt="Kotlin"></a>
-  <a href="https://gradle.org"><img src="https://img.shields.io/badge/Gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white" alt="Gradle"></a>
+  <a href="https://www.djangoproject.com/"><img src="https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white" alt="Django"></a>
+  <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python"></a>
+  <a href="https://www.postgresql.org/"><img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL"></a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/ReazonVan/TaskApp/stargazers"><img src="https://img.shields.io/github/stars/ReazonVan/TaskApp.svg?style=for-the-badge&color=FFAC33" alt="Stars"></a>
-  <a href="https://github.com/ReazonVan/TaskApp/network"><img src="https://img.shields.io/github/forks/ReazonVan/TaskApp.svg?style=for-the-badge&color=00C853" alt="Forks"></a>
-  <a href="https://github.com/ReazonVan/TaskApp/issues"><img src="https://img.shields.io/github/issues/ReazonVan/TaskApp.svg?style=for-the-badge&color=FF5252" alt="Issues"></a>
+  <a href="https://github.com/ReazonVan/GameTrade/stargazers"><img src="https://img.shields.io/github/stars/ReazonVan/GameTrade.svg?style=for-the-badge&color=FFAC33" alt="Stars"></a>
+  <a href="https://github.com/ReazonVan/GameTrade/network"><img src="https://img.shields.io/github/forks/ReazonVan/GameTrade.svg?style=for-the-badge&color=00C853" alt="Forks"></a>
+  <a href="https://github.com/ReazonVan/GameTrade/issues"><img src="https://img.shields.io/github/issues/ReazonVan/GameTrade.svg?style=for-the-badge&color=FF5252" alt="Issues"></a>
 </p>
 
 </div>
 
----
+<!-- ⚔️ ДЕКОРАТИВНЫЙ РАЗДЕЛИТЕЛЬ ⚔️ -->
+<div align="center">
+  <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png" alt="Разделитель" style="width: 100%;">
+</div>
 
-## 🎓 Никаких пропущенных дедлайнов. Никаких академических задолженностей.
+## 🛒 Безопасная торговля игровыми предметами и аккаунтами
 
 ## 📋 О проекте
 
 <div align="center">
 
-<img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdm95ZjE2N3NsdWFiOTVnNWU5a2puaG92cnpxc2U0YjIydG5idnh5ciZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/l46Cy1rHbQ92uuLXa/giphy.gif" width="350" alt="Student Studying">
+<img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcGE1b3JuaWZ5NXFlcnlqcXBpNzF2djF5aW0wd3V3ejgwdjJ3dzI2MSZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/UYpelo7WbjZQY/giphy.gif" width="350" alt="Gaming Items">
 
-<h3><i>Успевай всё вовремя!</i></h3>
+<h3><i>Покупай и продавай игровые ценности безопасно!</i></h3>
 
 </div>
 
 <div align="center">
 
-TaskApp - это специализированное приложение для студентов, которое помогает эффективно отслеживать учебные задания, дедлайны и академические долги. Разработанное с учетом реальных потребностей учащихся, оно помогает организовать учебный процесс и никогда не пропускать важные даты сдачи работ.
+GameTrade - это современная торговая площадка для покупки и продажи внутриигровых предметов, валюты и аккаунтов. Построенная на Django и PostgreSQL, платформа обеспечивает безопасные транзакции между игроками, защиту от мошенничества и удобный пользовательский интерфейс.
 
+</div>
+
+<!-- 🎯 ДЕКОРАТИВНЫЙ РАЗДЕЛИТЕЛЬ 🎯 -->
+<div align="center">
+  <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/fire.png" alt="Разделитель" style="width: 100%;">
 </div>
 
 ### ✨ Основные возможности
@@ -42,35 +50,40 @@ TaskApp - это специализированное приложение дл�
 
 <table>
   <tr>
-    <th align="center">📝 Функция</th>
-    <th align="center">📚 Описание</th>
+    <th align="center">🎮 Функция</th>
+    <th align="center">📝 Описание</th>
   </tr>
   <tr>
-    <td align="center"><b>⏰ Отслеживание дедлайнов</b></td>
-    <td>Визуальный календарь с подсветкой приближающихся дат сдачи работ</td>
+    <td align="center"><b>🛍️ Торговая площадка</b></td>
+    <td>Удобный каталог предложений с расширенными фильтрами</td>
   </tr>
   <tr>
-    <td align="center"><b>📋 Учебные задания</b></td>
-    <td>Организация по предметам, курсам и семестрам</td>
+    <td align="center"><b>🔐 Безопасные сделки</b></td>
+    <td>Защита покупателей и продавцов с гарантией возврата средств</td>
   </tr>
   <tr>
-    <td align="center"><b>🔔 Умные напоминания</b></td>
-    <td>Настраиваемые уведомления о приближающихся дедлайнах</td>
+    <td align="center"><b>💬 Чат между пользователями</b></td>
+    <td>Обсуждение деталей сделки в режиме реального времени</td>
   </tr>
   <tr>
-    <td align="center"><b>🎯 Приоритеты</b></td>
-    <td>Выделение наиболее важных заданий и срочных работ</td>
+    <td align="center"><b>⭐ Рейтинговая система</b></td>
+    <td>Оценка продавцов и покупателей для повышения доверия</td>
   </tr>
   <tr>
-    <td align="center"><b>📊 Прогресс обучения</b></td>
-    <td>Отслеживание успеваемости и выполненных работ</td>
+    <td align="center"><b>🔍 Умный поиск</b></td>
+    <td>Быстрый поиск предметов по играм, серверам и характеристикам</td>
   </tr>
   <tr>
-    <td align="center"><b>📱 Быстрый доступ</b></td>
-    <td>Виджеты с ближайшими дедлайнами на главном экране</td>
+    <td align="center"><b>📊 Статистика профиля</b></td>
+    <td>Отслеживание истории сделок и репутации на платформе</td>
   </tr>
 </table>
 
+</div>
+
+<!-- 🔥 ДЕКОРАТИВНЫЙ РАЗДЕЛИТЕЛЬ 🔥 -->
+<div align="center">
+  <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/solar.png" alt="Разделитель" style="width: 100%;">
 </div>
 
 ## 🚀 Технологический стек
@@ -83,40 +96,49 @@ TaskApp - это специализированное приложение дл�
 
 | 💻 Технология | 📝 Описание |
 |---------------|-------------|
-| Kotlin | Современный язык программирования с null-safety и корутинами |
-| Gradle | Система сборки с поддержкой Kotlin DSL |
-| MVVM | Архитектурный паттерн для чистого разделения логики |
-| Room | Удобная и производительная база данных от Google |
-| Material Design 3 | Современный адаптивный дизайн с поддержкой тем |
-| Jetpack | Navigation, ViewModel, LiveData, DataBinding |
-| Coroutines | Асинхронное программирование и многопоточность |
-| Dagger Hilt | Внедрение зависимостей |
-| WorkManager | Фоновые задачи и синхронизация |
+| Django 5.0 | Мощный Python-фреймворк для веб-разработки |
+| PostgreSQL | Надёжная реляционная база данных |
+| Bootstrap 5 | Современный CSS-фреймворк для адаптивного дизайна |
+| Docker | Контейнеризация для удобного развёртывания |
+| Pillow | Обработка изображений для обложек игр и предметов |
+| Font Awesome | Иконки для улучшения пользовательского интерфейса |
+| Django ORM | Удобная работа с базой данных через объектную модель |
+| Docker Compose | Оркестрация контейнеров для разработки и продакшена |
 
 </details>
 
 </div>
 
-## 🎯 Для студентов
+<!-- 🎮 ДЕКОРАТИВНЫЙ РАЗДЕЛИТЕЛЬ 🎮 -->
+<div align="center">
+  <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/aqua.png" alt="Разделитель" style="width: 100%;">
+</div>
+
+## 🎯 Для геймеров
 
 <div align="center">
 
 <kbd>
-<img src="https://img.shields.io/badge/Экзамены-FF5555?style=for-the-badge" alt="Экзамены">
-<img src="https://img.shields.io/badge/Лабораторные-44CC11?style=for-the-badge" alt="Лабораторные">
-<img src="https://img.shields.io/badge/Курсовые-3366FF?style=for-the-badge" alt="Курсовые">
-<img src="https://img.shields.io/badge/Домашние_задания-FF9900?style=for-the-badge" alt="Домашние задания">
+<img src="https://img.shields.io/badge/RPG-FF5555?style=for-the-badge" alt="RPG">
+<img src="https://img.shields.io/badge/MMORPG-44CC11?style=for-the-badge" alt="MMORPG">
+<img src="https://img.shields.io/badge/Шутеры-3366FF?style=for-the-badge" alt="Шутеры">
+<img src="https://img.shields.io/badge/Стратегии-FF9900?style=for-the-badge" alt="Стратегии">
 </kbd>
 
 <br><br>
 
 | 👥 Кому пригодится | 📝 Преимущества |
 |-----------|-------------|
-| 👨‍🎓 Студенты университетов | Организация сложного учебного графика по семестрам |
-| 👩‍🎓 Учащиеся колледжей | Отслеживание регулярных заданий и тестов |
-| 👨‍💻 Студенты онлайн-курсов | Контроль дедлайнов из разных образовательных платформ |
-| 👩‍🏫 Аспиранты | Управление исследовательской работой и публикациями |
+| 👨‍🎮 Хардкорные геймеры | Доступ к редким игровым предметам и валюте |
+| 👩‍🎮 Коллекционеры | Поиск уникальных предметов для своей коллекции |
+| 💰 Торговцы | Заработок на перепродаже ценных игровых активов |
+| 🕹️ Киберспортсмены | Быстрое приобретение необходимого инвентаря |
 
+</div>
+
+<!-- 💎 ДЕКОРАТИВНЫЙ РАЗДЕЛИТЕЛЬ 💎 -->
+<div align="center">
+  <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png" alt="Разделитель" style="width: 100%;">
 </div>
 
 ## ⚙️ Установка
@@ -127,24 +149,24 @@ TaskApp - это специализированное приложение дл�
 
 <table>
   <tr>
-    <th align="center">📱 Требование</th>
+    <th align="center">🖥️ Требование</th>
     <th align="center">⚙️ Минимум</th>
     <th align="center">🚀 Рекомендуется</th>
   </tr>
   <tr>
-    <td align="center">Android</td>
-    <td align="center">6.0 (API 23)</td>
-    <td align="center">10.0 (API 29)</td>
+    <td align="center">Python</td>
+    <td align="center">3.8</td>
+    <td align="center">3.10</td>
   </tr>
   <tr>
-    <td align="center">Память</td>
-    <td align="center">50 MB</td>
-    <td align="center">100 MB</td>
+    <td align="center">PostgreSQL</td>
+    <td align="center">11</td>
+    <td align="center">13</td>
   </tr>
   <tr>
-    <td align="center">Сервисы</td>
-    <td align="center">Google Play</td>
-    <td align="center">Google Play</td>
+    <td align="center">Docker</td>
+    <td align="center">20.10</td>
+    <td align="center">23.0</td>
   </tr>
 </table>
 
@@ -156,39 +178,44 @@ TaskApp - это специализированное приложение дл�
 
 <table>
   <tr>
-    <th colspan="2" align="center">🚀 Установка приложения</th>
+    <th colspan="2" align="center">🚀 Установка проекта</th>
   </tr>
   <tr>
     <td align="center" width="70"><b>1️⃣</b></td>
     <td>
       <b>Клонируйте репозиторий</b><br>
-      <code>git clone https://github.com/ReazonVan/TaskApp.git</code><br>
-      <code>cd TaskApp</code>
+      <code>git clone https://github.com/ReazonVan/GameTrade.git</code><br>
+      <code>cd GameTrade</code>
     </td>
   </tr>
   <tr>
     <td align="center"><b>2️⃣</b></td>
     <td>
-      <b>Откройте проект в Android Studio</b><br>
-      Используйте версию 2022.1.1 или новее
+      <b>Запустите с помощью Docker Compose</b><br>
+      <code>docker-compose up -d</code>
     </td>
   </tr>
   <tr>
     <td align="center"><b>3️⃣</b></td>
     <td>
-      <b>Синхронизируйте зависимости</b><br>
-      <code>./gradlew build</code>
+      <b>Создайте суперпользователя</b><br>
+      <code>docker-compose exec web python manage.py createsuperuser</code>
     </td>
   </tr>
   <tr>
     <td align="center"><b>4️⃣</b></td>
     <td>
-      <b>Запустите приложение</b><br>
-      Выберите эмулятор или подключенное устройство
+      <b>Откройте сайт</b><br>
+      Перейдите по адресу <code>http://localhost:8000</code>
     </td>
   </tr>
 </table>
 
+</div>
+
+<!-- 🛡️ ДЕКОРАТИВНЫЙ РАЗДЕЛИТЕЛЬ 🛡️ -->
+<div align="center">
+  <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/fire.png" alt="Разделитель" style="width: 100%;">
 </div>
 
 ## 🔧 Разработка
@@ -199,24 +226,26 @@ TaskApp - это специализированное приложение дл�
 
 ```mermaid
 flowchart TD
-    A["📱 TaskApp"] --> B["📦 app"]
-    B --> C["📂 src"]
-    C --> D["📂 main"]
-    C --> E["📂 test"]
-    C --> F["📂 androidTest"]
-    D --> G["📂 java"]
-    D --> H["📂 res"]
-    D --> I["📄 AndroidManifest.xml"]
+    A["🎮 GameTrade"] --> B["📁 gameproject"]
+    A --> C["📁 gameapp"]
+    A --> D["📁 covers"]
     
-    G --> J["📚 Учебные задачи"]
-    G --> K["⏰ Дедлайны"]
-    G --> L["🔔 Напоминания"]
+    B --> B1["📄 settings.py"]
+    B --> B2["📄 urls.py"]
+    
+    C --> C1["📄 models.py"]
+    C --> C2["📄 views.py"]
+    C --> C3["📁 templates"]
+    
+    C3 --> C31["📄 base.html"]
+    C3 --> C32["📄 game_list.html"]
+    C3 --> C33["📄 game_detail.html"]
     
     classDef default fill:#f5f5f5,stroke:#5d8aa8,stroke-width:2px,color:#333,rx:5px
     classDef special fill:#ffeecc,stroke:#ff9900,stroke-width:2px,color:#333,rx:5px
     
     class A,B default
-    class J,K,L special
+    class C1,C2,C3 special
 ```
 
 </div>
@@ -231,23 +260,28 @@ flowchart TD
     <th align="center">💻 Команда</th>
   </tr>
   <tr>
-    <td align="center">Debug сборка</td>
-    <td><code>./gradlew assembleDebug</code></td>
+    <td align="center">Запуск разработки</td>
+    <td><code>docker-compose up</code></td>
   </tr>
   <tr>
-    <td align="center">Release сборка</td>
-    <td><code>./gradlew assembleRelease</code></td>
+    <td align="center">Запуск миграций</td>
+    <td><code>docker-compose exec web python manage.py migrate</code></td>
   </tr>
   <tr>
-    <td align="center">Unit тесты</td>
-    <td><code>./gradlew test</code></td>
+    <td align="center">Сборка статики</td>
+    <td><code>docker-compose exec web python manage.py collectstatic</code></td>
   </tr>
   <tr>
-    <td align="center">Android тесты</td>
-    <td><code>./gradlew connectedAndroidTest</code></td>
+    <td align="center">Запуск тестов</td>
+    <td><code>docker-compose exec web python manage.py test</code></td>
   </tr>
 </table>
 
+</div>
+
+<!-- 🏆 ДЕКОРАТИВНЫЙ РАЗДЕЛИТЕЛЬ 🏆 -->
+<div align="center">
+  <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/solar.png" alt="Разделитель" style="width: 100%;">
 </div>
 
 ## 📧 Контакты
@@ -275,18 +309,23 @@ flowchart TD
 
 </div>
 
+<!-- 🌟 ДЕКОРАТИВНЫЙ РАЗДЕЛИТЕЛЬ 🌟 -->
+<div align="center">
+  <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png" alt="Разделитель" style="width: 100%;">
+</div>
+
 ## 🤝 Поддержка проекта
 
 <div align="center">
 
 <kbd>
-<a href="https://github.com/ReazonVan/TaskApp">
+<a href="https://github.com/ReazonVan/GameTrade">
   <img src="https://img.shields.io/badge/⭐_Поставьте_звезду-FFAC33?style=for-the-badge&logo=github&logoColor=white" alt="Star">
 </a>
-<a href="https://github.com/ReazonVan/TaskApp/issues">
+<a href="https://github.com/ReazonVan/GameTrade/issues">
   <img src="https://img.shields.io/badge/🐛_Сообщить_об_ошибке-FF5252?style=for-the-badge&logo=github&logoColor=white" alt="Bug">
 </a>
-<a href="https://github.com/ReazonVan/TaskApp/issues">
+<a href="https://github.com/ReazonVan/GameTrade/issues">
   <img src="https://img.shields.io/badge/💡_Предложить_идею-00C853?style=for-the-badge&logo=github&logoColor=white" alt="Idea">
 </a>
 </kbd>
@@ -297,8 +336,8 @@ flowchart TD
 
 <div align="center">
   
-<h1>📚 TaskApp - Учись без стресса! 📚</h1>
+<h1>🎮 GameTrade - Торговая площадка для настоящих геймеров! 🎮</h1>
 
-<img src="https://img.shields.io/badge/Создано_студентами_для_студентов-5D8AA8?style=for-the-badge" alt="Создано студентами для студентов">
+<img src="https://img.shields.io/badge/Создано_геймерами_для_геймеров-5D8AA8?style=for-the-badge" alt="Создано геймерами для геймеров">
 
-</div> 
+</div>
